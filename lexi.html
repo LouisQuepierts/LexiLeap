@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>词汇巩固 - 自主背单词工具</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+<div class="app-container">
+    <!-- 顶部导航 -->
+    <nav class="main-nav">
+        <div class="nav-brand">词汇巩固</div>
+        <ul class="nav-links">
+            <li><a href="#" id="nav-practice">练习</a></li>
+            <li><a href="#" id="nav-wordbank">词库</a></li>
+            <li><a href="#" id="nav-stats">统计</a></li>
+            <li><a href="#" id="nav-settings">设置</a></li>
+        </ul>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="content-area">
+        <!-- 练习界面 (默认显示) -->
+        <section id="practice-section" class="active-section">
+            <div class="quiz-header">
+                <h2>词汇练习</h2>
+                <div class="quiz-controls">
+                    <select id="word-list-select"></select>
+                    <button id="start-quiz">开始练习</button>
+                </div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="question-area">
+                    <p class="word-display" id="current-word">准备开始练习...</p>
+                    <div class="question-type" id="question-type"></div>
+                </div>
+
+                <div class="answer-area" id="answer-area">
+                    <!-- 动态生成选择题或拼写题 -->
+                </div>
+
+                <div class="feedback-area" id="feedback-area">
+                    <!-- 答题反馈 -->
+                </div>
+
+                <div class="quiz-progress">
+                    <span id="progress-counter">0/0</span>
+                    <button id="next-question" disabled>下一题</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 词库管理界面 -->
+        <section id="wordbank-section">
+            <!-- 词库管理内容 -->
+        </section>
+
+        <!-- 统计界面 -->
+        <section id="stats-section">
+            <!-- 统计图表 -->
+        </section>
+
+        <!-- 设置界面 -->
+        <section id="settings-section">
+            <!-- 设置选项 -->
+        </section>
+    </main>
+</div>
+
+<script src="js/data-store.js"></script>
+<script src="js/word-manager.js"></script>
+<script src="js/quiz-engine.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
