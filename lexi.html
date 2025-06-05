@@ -3,76 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>词汇巩固 - 自主背单词工具</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/animations.css">
+    <title>LexiLeap</title>
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-<div class="app-container">
-    <!-- 顶部导航 -->
-    <nav class="main-nav">
-        <div class="nav-brand">词汇巩固</div>
-        <ul class="nav-links">
-            <li><a href="#" id="nav-practice">练习</a></li>
-            <li><a href="#" id="nav-wordbank">词库</a></li>
-            <li><a href="#" id="nav-stats">统计</a></li>
-            <li><a href="#" id="nav-settings">设置</a></li>
-        </ul>
-    </nav>
-
-    <!-- 主内容区 -->
-    <main class="content-area">
-        <!-- 练习界面 (默认显示) -->
-        <section id="practice-section" class="active-section">
-            <div class="quiz-header">
-                <h2>词汇练习</h2>
-                <div class="quiz-controls">
-                    <select id="word-list-select"></select>
-                    <button id="start-quiz">开始练习</button>
-                </div>
-            </div>
-
-            <div class="quiz-container">
-                <div class="question-area">
-                    <p class="word-display" id="current-word">准备开始练习...</p>
-                    <div class="question-type" id="question-type"></div>
-                </div>
-
-                <div class="answer-area" id="answer-area">
-                    <!-- 动态生成选择题或拼写题 -->
-                </div>
-
-                <div class="feedback-area" id="feedback-area">
-                    <!-- 答题反馈 -->
-                </div>
-
-                <div class="quiz-progress">
-                    <span id="progress-counter">0/0</span>
-                    <button id="next-question" disabled>下一题</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- 词库管理界面 -->
-        <section id="wordbank-section">
-            <!-- 词库管理内容 -->
-        </section>
-
-        <!-- 统计界面 -->
-        <section id="stats-section">
-            <!-- 统计图表 -->
-        </section>
-
-        <!-- 设置界面 -->
-        <section id="settings-section">
-            <!-- 设置选项 -->
-        </section>
-    </main>
+<!-- 开始页面 -->
+<div id="start-page" class="start-page">
+    <div class="logo-container">
+        <img src="logo.png" alt="Vocab Master Logo" class="logo">
+        <div class="enter-prompt">按下 Enter 键开始练习</div>
+    </div>
 </div>
 
-<script src="js/data-store.js"></script>
-<script src="js/word-manager.js"></script>
-<script src="js/quiz-engine.js"></script>
-<script src="js/main.js"></script>
+<!-- 练习页面 (初始隐藏) -->
+<div id="quiz-page" class="quiz-page hidden">
+    <div id="main-header">
+        <div class="header-nav">
+            <h3 class="logo-text">LexiLeap</h3>
+            <nav class="header-links">
+                <a href="#practice" class="nav-link active">练习</a>
+                <a href="#vocabulary" class="nav-link active">词库</a>
+                <a href="#records" class="nav-link active">记录</a>
+                <a href="#profile" class="nav-link active">个人</a>
+            </nav>
+        </div>
+    </div>
+    <!-- 页面内容区域 -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <!-- 练习页面-->
+    <div class="quiz-container">
+        <div class="question-display" id="question-display">
+            <div id="question-text">单词加载中...</div>
+            <div class="hint" id="question-hint"></div>
+        </div>
+
+        <div class="answer-options" id="answer-options"></div>
+
+        <div class="answer-input" id="answer-input">
+            <div class="input-container">
+                <input type="text" id="spelling-input" placeholder="输入答案...">
+                <button id="submit-answer">提交</button>
+            </div>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+
+        <div class="navigation">
+            <div class="prev-word" id="prev-word"></div>
+                <div class="prev-text1" >上一题</div>
+                <div class="prev-text2" >下一题</div>
+            </div>
+
+        </div>
+    </div>
+
+
+<script src="./js/main.js"></script>
 </body>
 </html>

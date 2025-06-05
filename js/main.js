@@ -1,165 +1,181 @@
-/**
- * 主应用模块
- * 处理UI交互和模块协调
- */
+// 模拟单词数据
+const wordList = [
+    { word: "apple", meaning: "苹果" },
+    { word: "banana", meaning: "香蕉" },
+    { word: "computer", meaning: "电脑" },
+    { word: "diligent", meaning: "勤奋的" },
+    { word: "elephant", meaning: "大象" }
+];
 
+// DOM元素
+// DOM元素
+const startPage = document.getElementById('start-page');
+const quizPage = document.getElementById('quiz-page');
+const questionDisplay = document.getElementById('question-display');
+const answerOptions = document.getElementById('answer-options');
+const answerInput = document.getElementById('answer-input');
+const spellingInput = document.getElementById('spelling-input');
+const submitBtn = document.getElementById('submit-answer');
+const startButton = document.getElementById('startButton');
+const mainHeader = document.getElementById('main-header');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+
+// 当前题目和状态
+let currentQuestion = null;
+let currentQuestionType = null;
+
+// 初始化
 document.addEventListener('DOMContentLoaded', () => {
-    // DOM元素
-    const practiceSection = document.getElementById('practice-section');
-    const wordbankSection = document.getElementById('wordbank-section');
-    const statsSection = document.getElementById('stats-section');
-    const settingsSection = document.getElementById('settings-section');
+    // 监听Enter键
+    document.addEventListener('keydown', (event) => {
+        // 仅在开始页面且未按下Shift时响应Enter键
+        if (event.key === 'Enter' && !startPage.classList.contains('hidden') && !event.shiftKey) {
+            startQuiz();
+        }
+    });
 
-    const wordListSelect = document.getElementById('word-list-select');
-    const startQuizBtn = document.getElementById('start-quiz');
-    const nextQuestionBtn = document.getElementById('next-question');
+    // 开始按钮点击事件
+    startButton.addEventListener('click', startQuiz);
 
-    const wordDisplay = document.getElementById('current-word');
-    const questionTypeDisplay = document.getElementById('question-type');
-    const answerArea = document.getElementById('answer-area');
-    const feedbackArea = document.getElementById('feedback-area');
-    const progressCounter = document.getElementById('progress-counter');
+    // 提交答案按钮
+    submitBtn.addEventListener('click', checkSpellingAnswer);
 
-    // 初始化UI
-    function initUI() {
-        // 初始化词库选择器
-        WordManager.initWordListSelect(wordListSelect);
+    // 输入框回车提交
+    spellingInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            checkSpellingAnswer();
+        }
+    });
 
-        // 设置导航点击事件
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const sectionId = link.id.replace('nav-', '') + '-section';
+    // 上一题/下一题按钮
+    prevBtn.addEventListener('click', showPreviousQuestion);
+    nextBtn.addEventListener('click', generateQuestion);
+});
 
-                // 隐藏所有部分
-                document.querySelectorAll('main section').forEach(section => {
-                    section.classList.remove('active-section');
-                });
+// 开始练习
+function startQuiz() {
+    // 隐藏开始页面
+    startPage.classList.add('hidden');
 
-                // 显示选中部分
-                document.getElementById(sectionId).classList.add('active-section');
-            });
-        });
+    // 显示导航栏和练习页面
+    mainHeader.classList.remove('hidden');
+    quizPage.classList.remove('hidden');
 
-        // 开始练习按钮
-        startQuizBtn.addEventListener('click', startNewQuiz);
+    // 生成第一题
+    generateQuestion();
 
-        // 下一题按钮
-        nextQuestionBtn.addEventListener('click', () => {
-            feedbackArea.style.display = 'none';
-            if (QuizEngine.nextQuestion()) {
-                showQuestion();
-            } else {
-                showQuizResults();
-            }
-        });
-    }
+    // 滚动到练习页面顶部
+    setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+}
 
-    // 开始新练习
-    function startNewQuiz() {
-        const wordListName = wordListSelect.value;
-        QuizEngine.initQuiz(wordListName, 10);
-        showQuestion();
-    }
+// 生成题目
+function generateQuestion() {
+    // 随机选择单词
+    const randomIndex = Math.floor(Math.random() * wordList.length);
+    currentQuestion = wordList[randomIndex];
+
+    // 随机选择题型 (选择题或填空题)
+    currentQuestionType = Math.random() > 0.5 ? 'multiple-choice' : 'spelling';
 
     // 显示题目
-    function showQuestion() {
-        const question = QuizEngine.generateQuestion();
-        const currentWord = QuizEngine.getCurrentQuestion();
+    if (currentQuestionType === 'multiple-choice') {
+        showMultipleChoiceQuestion();
+    } else {
+        showSpellingQuestion();
+    }
+}
 
-        // 更新进度显示
-        progressCounter.textContent = `${QuizEngine.currentQuestionIndex + 1}/${QuizEngine.currentQuiz.words.length}`;
+// 显示选择题
+function showMultipleChoiceQuestion() {
+    // 随机决定显示英文选中文，还是显示中文选英文
+    const showWordFirst = Math.random() > 0.5;
 
-        // 显示单词
-        wordDisplay.textContent = currentWord.word;
+    // 设置问题显示
+    questionDisplay.textContent = showWordFirst ? currentQuestion.word : currentQuestion.meaning;
 
-        // 显示题型
-        questionTypeDisplay.textContent = question.type === 'multiple-choice' ?
-            '选择正确的释义' : '拼写英文单词';
+    // 生成选项
+    answerOptions.innerHTML = '';
+    answerInput.classList.add('hidden');
+    answerOptions.classList.remove('hidden');
 
-        // 生成答案区域
-        answerArea.innerHTML = '';
-        if (question.type === 'multiple-choice') {
-            const optionsContainer = document.createElement('div');
-            optionsContainer.className = 'multiple-choice';
+    // 获取3个错误选项
+    const wrongOptions = wordList
+        .filter(item => item.word !== currentQuestion.word)
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 3)
+        .map(item => showWordFirst ? item.meaning : item.word);
 
-            question.options.forEach(option => {
-                const optionBtn = document.createElement('div');
-                optionBtn.className = 'choice-option';
-                optionBtn.textContent = option;
-                optionBtn.addEventListener('click', () => handleAnswer(option));
-                optionsContainer.appendChild(optionBtn);
-            });
+    // 添加正确选项
+    const correctOption = showWordFirst ? currentQuestion.meaning : currentQuestion.word;
+    const allOptions = [...wrongOptions, correctOption].sort(() => 0.5 - Math.random());
 
-            answerArea.appendChild(optionsContainer);
-        } else {
-            const spellingContainer = document.createElement('div');
-            spellingContainer.className = 'spelling-input';
+    // 创建选项按钮
+    allOptions.forEach(option => {
+        const button = document.createElement('button');
+        button.className = 'option-btn';
+        button.textContent = option;
+        button.addEventListener('click', () => {
+            checkMultipleChoiceAnswer(option, correctOption);
+        });
+        answerOptions.appendChild(button);
+    });
+}
 
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.placeholder = '输入英文单词...';
+// 显示拼写题
+function showSpellingQuestion() {
+    // 总是显示中文，要求拼写英文
+    questionDisplay.textContent = currentQuestion.meaning;
 
-            const submitBtn = document.createElement('button');
-            submitBtn.textContent = '提交';
-            submitBtn.addEventListener('click', () => handleAnswer(input.value));
+    answerOptions.classList.add('hidden');
+    answerInput.classList.remove('hidden');
+    spellingInput.value = '';
+    spellingInput.focus();
+}
 
-            spellingContainer.appendChild(input);
-            spellingContainer.appendChild(submitBtn);
-            answerArea.appendChild(spellingContainer);
+// 检查选择题答案
+function checkMultipleChoiceAnswer(selectedOption, correctOption) {
+    const isCorrect = selectedOption === correctOption;
 
-            // 回车键提交
-            input.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    handleAnswer(input.value);
-                }
-            });
+    // 给用户反馈
+    const buttons = document.querySelectorAll('.option-btn');
+    buttons.forEach(button => {
+        button.disabled = true;
+        if (button.textContent === correctOption) {
+            button.style.backgroundColor = isCorrect ? 'var(--correct)' : 'var(--correct)';
+            button.style.color = 'white';
+        } else if (button.textContent === selectedOption && !isCorrect) {
+            button.style.backgroundColor = 'var(--incorrect)';
+            button.style.color = 'white';
         }
-    }
+    });
 
-    // 处理用户答案
-    function handleAnswer(userAnswer) {
-        const result = QuizEngine.checkAnswer(userAnswer);
-        showFeedback(result);
-    }
+    // 3秒后自动进入下一题
+    setTimeout(generateQuestion, 3000);
+}
 
-    // 显示反馈
-    function showFeedback(result) {
-        feedbackArea.style.display = 'block';
-        feedbackArea.className = result.isCorrect ? 'feedback-area correct-feedback' : 'feedback-area incorrect-feedback';
+// 检查拼写题答案
+function checkSpellingAnswer() {
+    const userAnswer = spellingInput.value.trim().toLowerCase();
+    const isCorrect = userAnswer === currentQuestion.word.toLowerCase();
 
-        feedbackArea.innerHTML = `
-            <p>${result.isCorrect ? '✓ 正确！' : '✗ 不正确'}</p>
-            <p>正确答案: ${result.correctAnswer}</p>
-            ${result.wordAnalysis ? `
-            <div class="word-analysis">
-                <p>词缀分析:</p>
-                ${result.wordAnalysis.prefix ? `<span class="word-prefix">${result.wordAnalysis.prefix}<span class="tooltip">前缀</span></span>` : ''}
-                ${result.wordAnalysis.root ? `<span class="word-root">${result.wordAnalysis.root}<span class="tooltip">词根</span></span>` : ''}
-                ${result.wordAnalysis.suffix ? `<span class="word-suffix">${result.wordAnalysis.suffix}<span class="tooltip">后缀</span></span>` : ''}
-            </div>
-            ` : ''}
-        `;
+    // 给用户反馈
+    answerInput.classList.add('hidden');
+    questionDisplay.innerHTML = `
+        <span style="color: ${isCorrect ? 'var(--correct)' : 'var(--incorrect)'}">
+            ${isCorrect ? '✓ 正确!' : '✗ 不正确'}
+        </span><br>
+        ${currentQuestion.meaning} = ${currentQuestion.word}
+    `;
 
-        nextQuestionBtn.disabled = false;
-    }
+    // 3秒后自动进入下一题
+    setTimeout(generateQuestion, 3000);
+}
 
-    // 显示练习结果
-    function showQuizResults() {
-        const results = QuizEngine.getQuizResults();
-
-        answerArea.innerHTML = `
-            <div class="quiz-results">
-                <h3>练习完成!</h3>
-                <p>正确率: ${results.accuracy}% (${results.correctCount}/${results.totalQuestions})</p>
-                <p>用时: ${results.duration.toFixed(1)}秒</p>
-                <button id="restart-quiz">再练习一次</button>
-            </div>
-        `;
-
-        document.getElementById('restart-quiz').addEventListener('click', startNewQuiz);
-    }
-
-    // 初始化应用
-    initUI();
-});
+// 显示上一题（当前未实现，简单处理为生成新题）
+function showPreviousQuestion() {
+    generateQuestion();
+}

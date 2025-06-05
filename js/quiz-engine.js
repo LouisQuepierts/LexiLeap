@@ -1,128 +1,201 @@
-/**
- * 练习引擎模块
- * 生成题目、处理答题逻辑和反馈
- */
+// 单词数据
+const wordData = [
+    { id: 1, word: "apple", meaning: "苹果", type: "choice", display: "meaning" },
+    { id: 2, word: "computer", meaning: "电脑", type: "spelling" },
+    { id: 3, word: "beautiful", meaning: "美丽的", type: "choice", display: "word" },
+    { id: 4, word: "education", meaning: "教育", type: "spelling" },
+    { id: 5, word: "environment", meaning: "环境", type: "choice", display: "meaning" },
+    { id: 6, word: "technology", meaning: "技术", type: "spelling" },
+    { id: 7, word: "communication", meaning: "交流", type: "choice", display: "word" },
+    { id: 8, word: "knowledge", meaning: "知识", type: "spelling" },
+    { id: 9, word: "development", meaning: "发展", type: "choice", display: "meaning" },
+    { id: 10, word: "international", meaning: "国际的", type: "spelling" }
+];
 
-const QuizEngine = {
-    currentQuiz: null,
-    currentQuestionIndex: 0,
-    userAnswers: [],
+// 生成选择题的错误选项
+function generateOptions(correct, meaning) {
+    // 从单词库中随机选择3个错误选项
+    const otherWords = wordData
+        .filter(item => item.word !== correct && item.meaning !== meaning)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 3)
+        .map(item => item.display === "meaning" ? item.word : item.meaning);
 
-    // 初始化练习
-    initQuiz(wordListName, questionCount = 10) {
-        const wordList = DataStore.getWordList(wordListName);
-        const shuffled = [...wordList].sort(() => 0.5 - Math.random());
-        this.currentQuiz = {
-            listName: wordListName,
-            words: shuffled.slice(0, questionCount),
-            startTime: new Date()
-        };
-        this.currentQuestionIndex = 0;
-        this.userAnswers = [];
-        return this.currentQuiz;
-    },
+    // 合并正确选项和错误选项
+    const options = [correct, ...otherWords];
 
-    // 获取当前问题
-    getCurrentQuestion() {
-        if (!this.currentQuiz || this.currentQuestionIndex >= this.currentQuiz.words.length) {
-            return null;
-        }
-        return this.currentQuiz.words[this.currentQuestionIndex];
-    },
+    // 随机排序选项
+    return options.sort(() => Math.random() - 0.5);
+}
 
-    // 生成选择题
-    generateMultipleChoice(wordObj, optionsCount = 4) {
-        const wordList = DataStore.getWordList(this.currentQuiz.listName);
-        const incorrectOptions = wordList
-            .filter(w => w.word !== wordObj.word)
-            .sort(() => 0.5 - Math.random())
-            .slice(0, optionsCount - 1)
-            .map(w => w.meaning);
+// 练习状态
+let currentQuestionIndex = 0;
+let userAnswers = [];
+let currentAnswer = "";
+let isAnswered = false;
 
-        const options = [
-            wordObj.meaning,
-            ...incorrectOptions
-        ].sort(() => 0.5 - Math.random());
+// 初始化练习
+function initQuiz() {
+    currentQuestionIndex = 0;
+    userAnswers = [];
+    document.getElementById('total').textContent = wordData.length;
+    loadQuestion();
+}
 
-        return {
-            type: 'multiple-choice',
-            question: `"${wordObj.word}"的意思是？`,
-            options: options,
-            correctAnswer: wordObj.meaning
-        };
-    },
+// 加载题目
+function loadQuestion() {
+    const question = wordData[currentQuestionIndex];
 
-    // 生成拼写题
-    generateSpellingQuestion(wordObj) {
-        return {
-            type: 'spelling',
-            question: `如何拼写"${wordObj.meaning}"对应的英文单词？`,
-            correctAnswer: wordObj.word
-        };
-    },
+    // 更新进度
+    document.getElementById('current').textContent = currentQuestionIndex + 1;
+    document.getElementById('progress-bar').style.width = `${((currentQuestionIndex + 1) / wordData.length) * 100}%`;
 
-    // 随机生成题目
-    generateQuestion() {
-        const wordObj = this.getCurrentQuestion();
-        if (!wordObj) return null;
+    // 显示上一题单词
+    const prevWordElement = document.getElementById('prev-word');
+    if (currentQuestionIndex > 0) {
+        const prev = wordData[currentQuestionIndex - 1];
+        prevWordElement.textContent = `${prev.word} - ${prev.meaning}`;
+    } else {
+        prevWordElement.textContent = "";
+    }
 
-        // 随机选择题型
-        const questionTypes = ['multiple-choice', 'spelling'];
-        const type = questionTypes[Math.floor(Math.random() * questionTypes.length)];
+    // 重置状态
+    const feedback = document.getElementById('feedback');
+    feedback.textContent = "";
+    feedback.className = "feedback";
+    isAnswered = false;
+    currentAnswer = "";
 
-        switch (type) {
-            case 'multiple-choice':
-                return this.generateMultipleChoice(wordObj);
-            case 'spelling':
-                return this.generateSpellingQuestion(wordObj);
-            default:
-                return this.generateMultipleChoice(wordObj);
-        }
-    },
+    // 根据题目类型显示不同内容
+    const answerOptions = document.getElementById('answer-options');
+    const answerInput = document.getElementById('answer-input');
+    const questionDisplay = document.getElementById('question-text');
+    const questionHint = document.getElementById('question-hint');
 
-    // 检查答案
-    checkAnswer(userAnswer) {
-        const currentWord = this.getCurrentQuestion();
-        let isCorrect = false;
+    if (question.type === "choice") {
+        // 选择题模式
+        answerOptions.innerHTML = "";
+        answerInput.classList.add("hidden");
 
-        if (typeof userAnswer === 'string') { // 拼写题
-            isCorrect = userAnswer.toLowerCase() === currentWord.word.toLowerCase();
-        } else { // 选择题
-            isCorrect = userAnswer === currentWord.meaning;
+        // 设置问题显示
+        if (question.display === "meaning") {
+            questionDisplay.textContent = question.meaning;
+            questionHint.textContent = "请选择正确的英文单词";
+        } else {
+            questionDisplay.textContent = question.word;
+            questionHint.textContent = "请选择正确的中文意思";
         }
 
-        this.userAnswers.push({
-            word: currentWord,
-            userAnswer,
-            isCorrect,
-            timestamp: new Date()
+        // 生成选项
+        const options = generateOptions(
+            question.display === "meaning" ? question.word : question.meaning,
+            question.meaning
+        );
+
+        // 添加选项按钮
+        options.forEach(option => {
+            const button = document.createElement("button");
+            button.className = "option-btn";
+            button.textContent = option;
+            button.addEventListener("click", () => selectOption(option));
+            answerOptions.appendChild(button);
         });
 
-        // 记录结果
-        DataStore.recordPracticeResult(currentWord, isCorrect, this.currentQuiz.listName);
+        answerOptions.classList.remove("hidden");
+    } else {
+        // 填空题模式
+        answerOptions.classList.add("hidden");
+        answerInput.classList.remove("hidden");
+        document.getElementById('spelling-input').value = "";
 
-        return {
-            isCorrect,
-            correctAnswer: currentWord.meaning,
-            wordAnalysis: currentWord.analysis
-        };
-    },
+        // 设置问题显示
+        questionDisplay.textContent = question.meaning;
+        questionHint.textContent = "请输入正确的英文拼写";
 
-    // 移动到下一题
-    nextQuestion() {
-        this.currentQuestionIndex++;
-        return this.getCurrentQuestion() !== null;
-    },
-
-    // 获取练习结果
-    getQuizResults() {
-        const correctCount = this.userAnswers.filter(a => a.isCorrect).length;
-        return {
-            totalQuestions: this.currentQuiz.words.length,
-            correctCount,
-            accuracy: Math.round((correctCount / this.currentQuiz.words.length) * 100),
-            duration: (new Date() - this.currentQuiz.startTime) / 1000,
-            details: this.userAnswers
-        };
+        // 聚焦输入框
+        document.getElementById('spelling-input').focus();
     }
-};
+}
+
+// 选择题选项选择
+function selectOption(option) {
+    if (isAnswered) return;
+
+    // 移除之前的选择
+    document.querySelectorAll(".option-btn").forEach(btn => {
+        btn.classList.remove("selected");
+    });
+
+    // 标记当前选择
+    event.target.classList.add("selected");
+    currentAnswer = option;
+}
+
+// 提交答案
+function submitAnswer() {
+    if (isAnswered) return;
+
+    const question = wordData[currentQuestionIndex];
+    let isCorrect = false;
+    const feedback = document.getElementById('feedback');
+
+    if (question.type === "choice") {
+        if (!currentAnswer) {
+            alert("请选择一个选项");
+            return;
+        }
+
+        // 检查选择题答案
+        if (question.display === "meaning") {
+            isCorrect = currentAnswer === question.word;
+        } else {
+            isCorrect = currentAnswer === question.meaning;
+        }
+    } else {
+        // 检查填空题答案
+        const answer = document.getElementById('spelling-input').value.trim().toLowerCase();
+        if (!answer) {
+            alert("请输入答案");
+            return;
+        }
+
+        isCorrect = answer === question.word.toLowerCase();
+    }
+
+    // 记录用户答案
+    userAnswers[currentQuestionIndex] = {
+        userAnswer: currentAnswer || document.getElementById('spelling-input').value.trim(),
+        isCorrect: isCorrect
+    };
+
+    // 显示反馈
+    feedback.textContent = isCorrect ? "✓ 正确！" : "✗ 错误！";
+    feedback.className = isCorrect ? "feedback correct" : "feedback incorrect";
+
+    isAnswered = true;
+}
+
+// 上一题
+function prevQuestion() {
+    if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        loadQuestion();
+    }
+}
+
+// 下一题
+function nextQuestion() {
+    const question = wordData[currentQuestionIndex];
+    if (!isAnswered && question.type !== "choice") {
+        alert("请先提交答案");
+        return;
+    }
+
+    if (currentQuestionIndex < wordData.length - 1) {
+        currentQuestionIndex++;
+        loadQuestion();
+    } else {
+        alert("练习完成！");
+        // 这里可以添加完成练习后的处理
+    }
+}
