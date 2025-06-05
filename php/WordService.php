@@ -47,6 +47,15 @@
             ");
         }
 
+        public function all() {
+            $query = sql("--sql
+                SELECT id, spell, definition_cn, definition_en, example_sentence
+                FROM word 
+                WHERE deleted = 0
+            ");
+            return $this->db->query($query)->fetchAll();
+        }
+
         public function add($word, $definition_cn, $definition_en, $example_sentence) : void {
             $this->query_insert->execute([$word, $definition_cn, $definition_en, $example_sentence]);
         }
@@ -95,7 +104,7 @@
 
             $range = implode(',', $ids);
             $query = sql("--sql
-                SELECT spell, definition_cn, definition_en, example_sentence
+                SELECT id, spell, definition_cn, definition_en, example_sentence
                 FROM word 
                 WHERE deleted = 0
                 AND id IN ($range)
@@ -103,7 +112,9 @@
             ");
 
             $result = $this->db->query($query);
-            return $result->fetchAll();
+            $arr = $result->fetchAll();
+            shuffle($arr);
+            return $arr;
         }
 
         public static function getInstance() : WordService {

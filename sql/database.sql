@@ -30,7 +30,6 @@ CREATE TABLE IF NOT EXISTS affix (
 CREATE TABLE IF NOT EXISTS word_tags (
     word_id INT,
     tag_id INT,
-    deleted BOOLEAN DEFAULT FALSE,
     
     PRIMARY KEY (word_id, tag_id),
     FOREIGN KEY (word_id) REFERENCES word(id),
@@ -40,7 +39,6 @@ CREATE TABLE IF NOT EXISTS word_tags (
 CREATE TABLE IF NOT EXISTS word_affixes (
     word_id INT,
     affix_id INT,
-    deleted BOOLEAN DEFAULT FALSE,
     
     PRIMARY KEY (word_id, affix_id),
     FOREIGN KEY (word_id) REFERENCES word(id),
