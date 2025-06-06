@@ -21,10 +21,10 @@
         <div class="header-nav">
             <h3 class="logo-text">LexiLeap</h3>
             <nav class="header-links">
-                <a href="#practice" class="nav-link active">练习</a>
-                <a href="#vocabulary" class="nav-link active">词库</a>
-                <a href="#records" class="nav-link active">记录</a>
-                <a href="#profile" class="nav-link active">个人</a>
+                <a href="#practice" class="nav-link ">练习</a>
+                <a href="#vocabulary" class="nav-link ">词库</a>
+                <a href="#records" class="nav-link ">记录</a>
+                <a href="#profile" class="nav-link ">个人</a>
             </nav>
         </div>
     </div>
@@ -33,20 +33,21 @@
         <div class="progress-bar" id="progress-bar"></div>
     </div>
     <!-- 练习页面-->
-    <div class="quiz-container">
-        <div class="question-display" id="question-display">
-            <div id="question-text">单词加载中...</div>
-            <div class="hint" id="question-hint"></div>
-        </div>
-
-        <div class="answer-options" id="answer-options"></div>
-
-        <div class="answer-input" id="answer-input">
-            <div class="input-container">
-                <input type="text" id="spelling-input" placeholder="输入答案...">
-                <button id="submit-answer">提交</button>
+    <div class="word-container">
+        <div class="word">
+            <div id="cursor">|</div>
+            <div  id="word">
             </div>
         </div>
+        <!-- 新增：选择题选项区域（初始隐藏） -->
+        <div id="answer-options" class="answer-options hidden">
+            <!-- 选项会通过 JS 动态生成 -->
+        </div>
+        <input type="text" id="answer-input" class="hidden" autocomplete="off">
+
+        <div class="meaning" id="meaning">异乎寻常的；卓越的；特别的</div>
+
+        <div class="tag">IELTS</div>
 
         <div class="feedback" id="feedback"></div>
 
