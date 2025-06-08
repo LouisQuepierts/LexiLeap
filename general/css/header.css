@@ -1,0 +1,64 @@
+.logo-text {
+    font-size: 24px;
+    font-weight: 700;
+    padding: 0 0.8rem; /* 文字左右内边距 */
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.h1, .h2, .h3{
+    color: #404040;
+    font-family: "Consolas", monospace;
+}
+
+#main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;/*宽度父容器*/
+    padding: 0.4rem 0;/*上下内边距为0.5rem 左右无内边距*/
+    z-index: 100;
+    margin: 0 auto;
+}
+
+.header-nav {
+    background-color: #f1ede0;
+    width: 88%; /* 宽度88% */
+    max-width: 1200px;
+    z-index: 50;/* 设置层级（用于控制元素重叠时的显示顺序） */
+    display: flex; /* 启用弹性布局 */
+    border-radius: 9999px;/*圆角值*/
+    justify-content: space-between; /* 左右分布 */
+    align-items: center;
+    padding: 0 3%;
+    margin: 0 auto;
+
+    transition: background-color 0.5s;
+}
+
+.header-nav:hover {
+    background-color: #e1ddd0;
+}
+
+.header-links{
+    display: flex;
+    gap: 1.2rem;
+}
+
+.nav-link{
+    color: #2a2a2a;
+    background-color: #eceae200;
+    text-decoration: none;
+    transition: background-color 0.5s;/*颜色变化0.5s 位移变化0.3s过渡*/
+    padding: 0.3rem 1.2rem;/*内边距 上下0.3rem 左右0.8rem*/
+    border-radius: 40px;
+    font-size: 0.95rem;/*字体大小*/
+}
+
+.nav-link:hover {
+    background-color: #eceae2ff;
+}
+
+.nav-link.active{
+    color: rgba(64,64,64, 0.8);
+}

@@ -1,0 +1,116 @@
+body {
+    background-color: #fffbed;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.word-container {
+    text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.word {
+    font-size: 48px;
+    display: flex;
+}
+
+#cursor {
+    font-size: 56px;
+    position: relative;
+    color: #f97316;
+    top: -8px;
+    left: 6px;
+
+    transition: 0.1s ease-out;
+    animation: block-blink 1s infinite;
+}
+
+#cursor.checked {
+    color: transparent;
+    animation: none;
+}
+
+@keyframes block-blink {
+    0%, 100% { color: #f97316; }
+    50% { color: transparent; }
+}
+
+#word {
+    font-family: Consolas, monospace;
+    align-items: center;
+    justify-content: center;
+}
+
+letter {
+    color: #808080;
+    transition: color 0.25s ease-out;
+}
+
+letter.hint {
+    color: #202020;
+}
+
+/* 成功状态（绿色） */
+letter.success {
+    color: #22c55e; /* 绿色 */
+}
+
+/* 失败状态（红色） */
+letter.failed {
+    color: #ef4444; /* 红色 */
+}
+
+/* 悬停状态（橙色） */
+letter.hover {
+    color: #f97316;
+    animation: block-blink 1s infinite;
+}
+
+/* 中文释义样式 */
+#meaning {
+    font-size: 20px;
+    color: #657b83;
+    margin-top: 20px;
+}
+
+#tags {
+
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f1ede0;
+    padding: 3px 12px;
+    border-radius: 16px;
+    margin-top: 10px;
+
+    transition: background-color 0.25s ease-out;
+}
+
+.tag:hover {
+    background-color: #e1ddd0;
+}
+
+.tag-name {
+    font-family: Consolas monospace;
+    font-weight: bold;
+    color: #7f7f7f;
+    font-size: 16px;
+    margin-left: 8px;
+    transform: translateY(-2px);
+}
+
+.tag-node {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}

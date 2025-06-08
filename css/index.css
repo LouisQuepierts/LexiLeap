@@ -21,66 +21,6 @@ body {
     align-items: center;
 }
 
-#main-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;/*宽度父容器*/
-    padding: 0.8rem 0;/*上下内边距为0.5rem 左右无内边距*/
-    z-index: 100;
-    margin: 0 auto;
-}
-
-.h1, .h2, .h3{
-    color: #404040;
-    font-family: "JetBrains", monospace;
-}
-.header-nav {
-    background-color: #D3CFC2;
-    width: 88%; /* 宽度88% */
-    max-width: 1200px;
-    z-index: 50;/* 设置层级（用于控制元素重叠时的显示顺序） */
-    display: flex; /* 启用弹性布局 */
-    padding: 0 0; /* 调整垂直内边距 */
-    border-radius: 9999px;/*圆角值*/
-    justify-content: space-between; /* 左右分布 */
-    align-items: center;
-    padding-left: 3%; /* 文字左侧留白 */
-    padding-right: 3%;/*文字右侧留白*/
-    margin: 0 auto;
-}
-
-.header-links{
-    display: flex;
-    gap: 1.2rem;
-}
-
-.nav-link{
-    color: #2a2a2a;
-    background-color: #ffffff40;
-    text-decoration: none;
-    transition: color 0.6s,transform 0.4s;/*颜色变化0.5s 位移变化0.3s过渡*/
-    padding: 0.3rem 1.2rem;/*内边距 上下0.3rem 左右0.8rem*/
-    border-radius: 40px;
-    font-size: 0.95rem;/*字体大小*/
-}
-
-.nav-link:hover {/*悬停效果变化*/
-    color: rgba(64, 64, 64, 0.7);
-    transform: translateY(-2px);/*悬停时向上浮动2px*/
-}
-
-.nav-link.active{
-    color: rgba(64,64,64, 0.8);
-}
-.logo-text {
-    color: #404040;
-    font-family: "JetBrains Mono", monospace;
-    font-size: 1.2rem;
-    font-weight: 700;
-    padding: 0 0.8rem; /* 文字左右内边距 */
-}
-
 /* 开始页面样式 */
 .start-page {
     text-align: center;
