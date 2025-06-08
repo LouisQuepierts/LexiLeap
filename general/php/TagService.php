@@ -31,14 +31,14 @@
             ");
 
             $this->query_word2tags = $db->prepare("--sql
-                SELECT tag.name, tag.description, tag.color
+                SELECT tag.id, tag.name, tag.description, tag.color
                 FROM tag
                 JOIN word_tags ON tag.id = word_tags.tag_id
                 WHERE word_tags.word_id = :word_id
             ");
 
             $this->query_tag2words = $db->prepare("--sql
-                SELECT word.spell, word.definition_cn, word.definition_en, word.example_sentence
+                SELECT word.id, word.spell, word.definition_cn, word.definition_en, word.example_sentence
                 FROM word
                 JOIN word_tags ON word.id = word_tags.word_id
                 WHERE word_tags.tag_id = :tag_id

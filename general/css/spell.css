@@ -1,11 +1,12 @@
 body {
     background-color: #fffbed;
     font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    margin: 0;
+    padding: 0;
     height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .word-container {
@@ -81,7 +82,10 @@ letter.hover {
 }
 
 #tags {
-
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
 }
 
 .tag {

@@ -31,7 +31,7 @@
     justify-content: space-between; /* 左右分布 */
     align-items: center;
     padding: 0 3%;
-    margin: 0 auto;
+    margin: 1rem auto;
 
     transition: background-color 0.5s;
 }

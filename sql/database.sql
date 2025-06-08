@@ -53,3 +53,17 @@ CREATE TABLE IF NOT EXISTS user (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE
 );
+
+CREATE TABLE word_sets (
+    user_id INT UNSIGNED NOT NULL,
+    id TINYINT UNSIGNED NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    file_path VARCHAR(255) NOT NULL,
+    is_shared BOOLEAN DEFAULT FALSE,
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    update_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN DEFAULT FALSE
+
+    PRIMARY KEY (user_id, id),
+    CONSTRAINT max_sets_per_user CHECK (id <= 16)  -- 限制每个用户最多16个练习集
+);

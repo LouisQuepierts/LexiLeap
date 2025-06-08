@@ -27,7 +27,7 @@
             return $this->db;
         }
 
-        public function prepare($sql) : PDOStatement {
+        public function prepare($sql) : Query {
             $result = $this->db->prepare(sql($sql));
 
             if (!$result) {
@@ -35,11 +35,37 @@
                 exit();
             }
 
-            return $result;
+            return new Query($result);
         }
 
         public function query($sql) {
             return $this->db->query(sql($sql));
+        }
+    }
+
+    class Query {
+        private $query;
+
+        public function __construct($query) {
+            $this->query = $query;
+        }
+
+        public function bindParam($name, $value, $type = null) {
+            $this->query->bindParam($name, $value, $type);
+        }
+
+        public function execute($params = null) {
+            if (!$this->query->execute($params)) {
+                throw new Exception($this->query->errorInfo()[2]);
+            }
+        }
+
+        public function fetch() {
+            return $this->query->fetch();
+        }
+
+        public function fetchAll() {
+            return $this->query->fetchAll();
         }
     }
 
