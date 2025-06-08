@@ -189,9 +189,9 @@ function updateCursor() {
     cursor = clamp(cursor, 0, width); // 修正最大值为 width
     // 确保 word 元素已生成子节点
     const letters = word.children;
-    // 计算光标在页面中的实际位置（每个字母宽度 26.5px）
+    // 计算光标在页面中的实际位置（每个字母宽度 27px）
     const position = cursor + left;
-    const letterWidth = word.children[0]?.offsetWidth || 26.5; // 动态获取字母宽度
+    const letterWidth = 26.5 || word.children[0]?.offsetWidth; // 动态获取字母宽度
     pointer.style.transform = `translateX(${position * letterWidth}px)`;
     // 注释掉的代码：原用于高亮当前位置字符
     /*for (let i = 0; i < word.children.length; i++) {
