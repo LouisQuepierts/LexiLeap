@@ -9,3 +9,4 @@ INSERT INTO tag (NAME, description, color) VALUES
 ('spoken', '口语常用词汇', '#CCFF99'),
 ('written', '书面语词汇', '#FFCCFF'),
 ('formal', '正式场合词汇', '#99FFCC');
+('phrase', '短语', '#99CC99')
