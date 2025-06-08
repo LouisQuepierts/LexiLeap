@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Packet</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+<div class="login-form">
+    <h2>Packet</h2>
+    <form id="packet-form">
+        <div class="form-group">
+            <label for="module">Module</label>
+            <input type="text" id="module" name="module" class="login-input" required>
+        </div>
+        <div class="form-group">
+            <label for="interface">Interface</label>
+            <input type="text" id="interface" name="interface" class="login-input" required>
+        </div>
+        <div class="form-group">
+            <label for="data">Data</label>
+            <textarea id="data" name="data" class="login-input"></textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="submit">Submit</button>
+        </div>
+    </form>
+</div>
+
+<div class="login-form" style="margin-top: 2rem">
+    <div class="form-group">
+        <label for="response">Response</label>
+        <textarea id="response" class="login-input" readonly>
+        </textarea>
+    </div>
+</div>
+
+</body>
+<footer>
+    <script type="module">
+        import { _interface } from "../url_utils.js";
+
+        const packetForm = document.getElementById('packet-form');
+        const moduleInput = document.getElementById('module');
+        const interfaceInput = document.getElementById('interface');
+        const dataInput = document.getElementById('data');
+
+        const responseOutput = document.getElementById('response');
+
+        packetForm.addEventListener('submit', e => {
+            e.preventDefault();
+
+            const module = moduleInput.value;
+            const intf = interfaceInput.value;
+            const data = dataInput.value;
+
+            fetch(_interface(module, intf), {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: data,
+                credentials: 'include'
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            }).then(data => {
+                responseOutput.value = JSON.stringify(data, null, 4);
+                console.log(data)
+            }).catch(error => {
+                responseOutput.value = error;
+                console.error('There was a problem with the fetch operation:', error);
+            })
+        })
+    </script>
+</footer>
+</html>

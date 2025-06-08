@@ -1,0 +1,72 @@
+.login-form {
+    background-color: #ffffffff;
+    padding: 2rem 6rem;
+
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.form-group {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    font-size: 64px;
+    font-family: Consolas, monospace;
+    color: #404040
+}
+
+h2 {
+    font-size: 32px;
+    font-family: Consolas, monospace;
+    color: #404040
+}
+
+label {
+    font-size: 16px;
+    font-family: Consolas, monospace;
+    color: #404040;
+}
+
+.login-input {
+    font-size: 20px;
+    font-family: Consolas, monospace;
+    font-weight: bold;
+    border: 2px solid #424242;
+    border-radius: 8px;
+
+    margin-top: 4px;
+    padding: 0.5rem 1rem;
+
+    transition: 0.2s ease;
+}
+
+.login-input:hover {
+    border: 2px solid #7e430d;
+}
+
+.login-input:focus {
+    outline: none;
+    border: 2px solid #f97316;
+}
+
+.submit {
+    font-size: 20px;
+    font-family: Consolas, monospace;
+    font-weight: bold;
+
+    color: #404040;
+    background-color: #ffffff;
+    border: 2px solid #424242;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    margin: 1rem 0;
+
+    transition: 0.2s ease;
+}
+
+.submit:hover {
+    background-color: #7cc87c;
+}
