@@ -47,9 +47,9 @@ CREATE TABLE IF NOT EXISTS word_affixes (
 
 CREATE TABLE IF NOT EXISTS user (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    username ARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    password VVARCHAR(100) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    username VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL UNIQUE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE
 );
@@ -62,7 +62,7 @@ CREATE TABLE word_sets (
     is_shared BOOLEAN DEFAULT FALSE,
     create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
     update_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-    deleted BOOLEAN DEFAULT FALSE
+    deleted BOOLEAN DEFAULT FALSE,
 
     PRIMARY KEY (user_id, id),
     CONSTRAINT max_sets_per_user CHECK (id <= 16)  -- 限制每个用户最多16个练习集

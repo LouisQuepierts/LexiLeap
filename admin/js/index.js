@@ -1,8 +1,7 @@
-import {_interface} from "../../url_utils.js";
+import { UrlUtils } from "../../url_utils.js";
 
-fetch(_interface("admin", "verify_token"), {
-    credentials: 'include'
-}).then(
+UrlUtils.post("admin", "verify_token", "include"
+).then(
     response => response.json()
 ).then(data => {
     if (!data.success) {

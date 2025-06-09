@@ -8,3 +8,14 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+.hidden  {
+    display: none;
+}
+
+.warning {
+    color: #f85555;
+    font-family: Consolas monospace;
+    font-weight: bold;
+    horiz-align: center;
+}

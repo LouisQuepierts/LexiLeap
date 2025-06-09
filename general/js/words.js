@@ -1,4 +1,4 @@
-import {_interface} from "../../url_utils.js";
+import { UrlUtils } from "../../url_utils.js";
 
 export class Words {
     static localWords;
@@ -22,16 +22,9 @@ export class Words {
 
     static async fetch() {
         try {
-            const response = await fetch(_interface("general", "word/fetch"), {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: JSON.stringify({
-                    "offset": 0,
-                    "limit": 20
-                }),
-                credentials: 'include'
+            const response = await UrlUtils.post("general", "word/fetch", "include", {
+                "offset": 0,
+                "limit": 20
             });
 
             if (!response.ok) {
