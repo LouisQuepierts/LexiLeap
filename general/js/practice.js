@@ -1,4 +1,4 @@
-import { PageInjector } from "./page_injector.js";
+import { PageInjector } from "./PageInjector.js";
 
 const url = "../view/question/"
 

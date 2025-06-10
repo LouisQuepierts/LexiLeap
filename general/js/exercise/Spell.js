@@ -1,5 +1,5 @@
 import {Words} from "../words.js";
-import {FinishedQuestion, QuestionController} from "./questionController.js";
+import {FinishedQuestion, QuestionController} from "./QuestionController.js";
 
 const regx = /^[a-zA-Z\-]$/;
 
