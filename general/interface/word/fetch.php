@@ -1,7 +1,7 @@
 <?php
-require_once '../../../interface.php';
-require_once '../../php/WordService.php';
-require_once '../../php/TagService.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap' . '/interface.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap' . '/general/php/WordService.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap' . '/general/php/TagService.php';
 
 $response  = [
     'success' => false,

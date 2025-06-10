@@ -49,10 +49,10 @@
     color: #2a2a2a;
     background-color: #eceae200;
     text-decoration: none;
-    transition: background-color 0.5s;/*颜色变化0.5s 位移变化0.3s过渡*/
-    padding: 0.3rem 1.2rem;/*内边距 上下0.3rem 左右0.8rem*/
+    transition: background-color 0.5s;
+    padding: 0.3rem 1.2rem;
     border-radius: 40px;
-    font-size: 0.95rem;/*字体大小*/
+    font-size: 1rem;
 }
 
 .nav-link:hover {

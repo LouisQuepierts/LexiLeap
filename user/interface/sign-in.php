@@ -1,11 +1,13 @@
 <?php
 
-require_once '../../interface.php';
-require_once '../../general/php/Database.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap' . '/interface.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap' . '/general/php/Database.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap' . '/user/php/AuthService.php';
 
 $response = [
     'success' => false,
-    'message' => ''
+    'message' => '',
+    'token' => ''
 ];
 
 try {
@@ -14,33 +16,15 @@ try {
     $email = $input['email'];
     $password = $input['password'];
 
-    if (empty($email) || empty($password)) {
-        throw new Exception('Invalid Input Value', 400);
-    }
+    AuthService::signin($email, $password);
+    $response['success'] = true;
+    $response['message'] = 'Sign in successful';
+    $response['token'] = $_COOKIE['user_token'];
 
-    $db = Database::getInstance();
-    $query = $db->prepare("--sql
-        SELECT * FROM user
-        WHERE email = :email
-    ");
-
-    $query->bindParam(':email', $email);
-    $query->execute();
-
-    $result = $query->fetch();
-
-    if ($result) {
-        if (password_verify($password, PASSWORD_DEFAULT)) {
-            $response['success'] = true;
-            $response['message'] = 'Sign in successful';
-        } else {
-            $response['message'] = 'Incorrect password';
-        }
-    } else {
-        $response['message'] = 'User not found';
-    }
+    http_response_code(200);
 }  catch (Exception $e) {
     $response['message'] = $e->getMessage();
+    http_response_code($e->getCode() ?: 500);
 }
 
 echo json_encode($response);

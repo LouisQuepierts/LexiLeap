@@ -49,21 +49,31 @@ CREATE TABLE IF NOT EXISTS user (
     id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(100) NOT NULL UNIQUE,
     username VARCHAR(100) NOT NULL,
-    password VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE
 );
 
-CREATE TABLE word_sets (
-    user_id INT UNSIGNED NOT NULL,
-    id TINYINT UNSIGNED NOT NULL,
-    name VARCHAR(100) NOT NULL,
-    file_path VARCHAR(255) NOT NULL,
-    is_shared BOOLEAN DEFAULT FALSE,
-    create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-    update_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-    deleted BOOLEAN DEFAULT FALSE,
+CREATE TABLE IF NOT EXISTS user_tokens {
+    user_id INT PRIMARY KEY,
+    token VARCHAR(64) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expired_at TIMESTAMP,
+    version INT DEFAULT 1,
+    UNIQUE KEY (token),
+    FOREIGN KEY (user_id) REFERENCES user(id)
+}
 
-    PRIMARY KEY (user_id, id),
-    CONSTRAINT max_sets_per_user CHECK (id <= 16)  -- 限制每个用户最多16个练习集
+CREATE TABLE IF NOT EXISTS word_set (
+    id INT PRIMARY KEY AUTO_INCREMENT,  -- 自增主键，不再作为词集编号  
+    user_id INT NOT NULL,  
+    name VARCHAR(100) NOT NULL,  
+    file_path VARCHAR(255) NOT NULL,  
+    set_order TINYINT NOT NULL,  -- 词集顺序编号（1-16）  
+    is_shared BOOLEAN DEFAULT FALSE,  
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP,  
+    update_time DATETIME DEFAULT CURRENT_TIMESTAMP,  
+    deleted BOOLEAN DEFAULT FALSE,  
+    FOREIGN KEY (user_id) REFERENCES user(id),  
+    UNIQUE KEY (user_id, set_order)  -- 确保每个用户的set_order唯一 
 );

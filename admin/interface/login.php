@@ -1,6 +1,6 @@
 <?php
 
-require_once '../../interface.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap' . '/interface.php';
 
 $admin_users = [
     'admin' => password_hash('123456', PASSWORD_DEFAULT),

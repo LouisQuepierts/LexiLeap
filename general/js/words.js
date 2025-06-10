@@ -11,7 +11,6 @@ export class Words {
             console.log(Words.localWords);
             return Words.localWords;
         } else {
-            // 从网络获取数据（异步操作）
             const words = await Words.fetch();
             console.log(words);
             Words.localWords = words;
@@ -35,7 +34,6 @@ export class Words {
             return data.data.words;
         } catch (error) {
             console.error('Error fetching words:', error);
-            throw error; // 将错误继续抛出，让调用者处理
         }
     }
 }

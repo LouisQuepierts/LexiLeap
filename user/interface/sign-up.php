@@ -1,7 +1,7 @@
 <?php
 
-require_once '../../interface.php';
-require_once '../../general/php/Database.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap' . '/interface.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap' . '/general/php/Database.php';
 
 $response = [
     'success' => false,
@@ -15,16 +15,7 @@ try {
     $username = $input['username'];
     $password = $input['password'];
 
-    $db = Database::getInstance();
-    $query = $db->prepare("--sql
-        INSERT INTO user (email, username, password)
-        VALUES (:email, :username, :password)
-    ");
-
-    $query->bindParam(':email', $email, PDO::PARAM_STR);
-    $query->bindParam(':username', $username, PDO::PARAM_STR);
-    $query->bindParam(':password', password_hash($password, PASSWORD_DEFAULT), PDO::PARAM_STR);
-    $query->execute();
+    AuthService::signup($email, $username, $password);
 
     $response['success'] = true;
     $response['message'] = 'Sign up successful';

@@ -1,6 +1,6 @@
 <?php
 
-require_once '../../interface.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap' . '/interface.php';
 
 $response = [
     'valid' => false,
