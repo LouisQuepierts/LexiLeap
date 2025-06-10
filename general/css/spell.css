@@ -11,7 +11,7 @@
     display: flex;
 }
 
-#cursor {
+#spell-cursor {
     font-size: 56px;
     position: relative;
     color: #f97316;
@@ -22,7 +22,7 @@
     animation: block-blink 1s infinite;
 }
 
-#cursor.checked {
+#spell-cursor.checked {
     color: transparent;
     animation: none;
 }
@@ -32,7 +32,7 @@
     50% { color: transparent; }
 }
 
-#word {
+#spell-word {
     font-family: Consolas, monospace;
     align-items: center;
     justify-content: center;
@@ -64,13 +64,13 @@ letter.hover {
 }
 
 /* 中文释义样式 */
-#meaning {
+#spell-meaning {
     font-size: 20px;
     color: #657b83;
     margin-top: 20px;
 }
 
-#tags {
+#spell-tags {
     display: flex;
     gap: 1rem;
     align-items: center;

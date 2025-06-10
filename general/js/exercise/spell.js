@@ -1,13 +1,14 @@
-import {Words} from "./words.js";
+import {Words} from "../words.js";
+import {FinishedQuestion, QuestionController} from "./questionController.js";
 
 const regx = /^[a-zA-Z\-]$/;
 
-const word = document.getElementById('word')
-const tags = document.getElementById('tags');
-const meaning = document.getElementById('meaning');
-const pointer = document.getElementById('cursor');
+const word = document.getElementById('spell-word')
+const tags = document.getElementById('spell-tags');
+const meaning = document.getElementById('spell-meaning');
+const pointer = document.getElementById('spell-cursor');
 
-class Spell {
+class Spell extends QuestionController {
     words;
     question;
     cursor = 0;
@@ -17,12 +18,34 @@ class Spell {
     width;
 
     constructor() {
-        this.init().then(r => {});
+        super();
+        this.init().then(() => {});
     }
 
     async init() {
         this.words = await Words.get();
         this.setQuestion(this.words[0]);
+    }
+
+    record() {
+        return new FinishedQuestion(this.question, 'spell', {
+            cursor: this.cursor,
+            left: this.left,
+            right: this.right,
+            width: this.width,
+            checked: this.checked
+        });
+    }
+
+    review(question) {
+        this.setQuestion(question);
+        this.checked = true;
+        pointer.classList.add('checked');
+        for (let i = this.left; i <= this.right; i++) {
+            word.children[i].classList.remove('hover');
+            word.children[i].innerHTML = this.question.spell[i];
+            word.children[i].classList.add('success');
+        }
     }
 
     submit() {
@@ -115,6 +138,10 @@ class Spell {
     }
 
     onKeyDown(e) {
+        if (!this.enabled()) {
+            return;
+        }
+
         if (this.checked) {
             if (e.key === 'Enter') {
                 this.submit();
@@ -145,9 +172,10 @@ class Spell {
     }
 }
 
-const spell = new Spell();
+const spell_controller = new Spell();
+window.child_controller = spell_controller;
 
-document.addEventListener('keydown', e => spell.onKeyDown(e));
+document.addEventListener('keydown', e => spell_controller.onKeyDown(e));
 function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
 }
