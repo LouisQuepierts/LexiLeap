@@ -1,0 +1,25 @@
+#main-header {
+    display: flex;
+    width: 100%;
+    padding: 1rem 0;
+}
+
+@font-face {
+    font-family: "JetBrains";
+    src: url("../fonts/JetBrainsMono-Regular.ttf");
+}
+
+.h1 .h2 .h3 {
+    color: #404040;
+    font-family: "JetBrains", monospace;
+}
+
+.header-nav {
+    background-color: #D3CFC2;
+    width: 88%;
+    z-index: 50;
+    display: flex;
+    margin: 0 auto;
+    padding: 0 4rem;
+    border-radius: 9999px;
+}
