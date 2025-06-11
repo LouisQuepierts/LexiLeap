@@ -3,6 +3,16 @@ import {Words} from "../Words.js";
 
 export class QuestionController extends Controller {
     submitCallback;
+    questionWord = null;
+
+    constructor(type) {
+        super();
+
+        if (!window.child_controller) {
+            window.child_controller = [];
+        }
+        window.child_controller[type] = this;
+    }
 
     setSubmitCallback(callback) {
         this.submitCallback = callback;
@@ -21,11 +31,15 @@ export class QuestionController extends Controller {
     }
 
     setQuestion(question) {
-        throw new Error('Method get implemented.');
+        this.questionWord = question;
+    }
+
+    onKeyDown(e) {
+        throw new Error('Method not implemented.');
     }
 
     async next() {
-        const question = await Words.random();
+        const question = await Words.random(this.questionWord);
         this.setQuestion(question);
     }
 }
@@ -59,6 +73,7 @@ export class QuestionData {
     type;
     data;
     result;
+    checked = false;
 
     constructor(type, data) {
         this.type = type;

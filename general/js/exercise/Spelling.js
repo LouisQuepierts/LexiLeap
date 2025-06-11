@@ -7,6 +7,8 @@ const tagsElement = document.getElementById('tags');
 const meaningElement = document.getElementById('spelling-meaning');
 const pointer = document.getElementById('spelling-cursor');
 
+const TYPE_SPELLING = 'spelling';
+
 class SpellData {
     word;
     left;
@@ -22,35 +24,36 @@ class SpellData {
 }
 
 class Spelling extends QuestionController {
-    words;
-    question;
+    questionData;
     cursor = 0;
-    checked = false;
+
+    constructor() {
+        super(TYPE_SPELLING);
+    }
 
     review(question) {
-        if (question.type !== 'spell') {
+        if (question.type !== TYPE_SPELLING) {
             return;
         }
 
-        this.checked = true;
         pointer.classList.add('checked');
-        const data = this.question.data;
+        const data = this.questionData.data;
         for (let i = data.left; i <= data.right; i++) {
             wordElement.children[i].classList.remove('hover');
-            wordElement.children[i].innerHTML = this.question.data.spell[i];
+            wordElement.children[i].innerHTML = this.questionData.data.spell[i];
             wordElement.children[i].classList.add('success');
         }
     }
 
     submit() {
-        if (this.checked) {
-            this.onSubmit(this.question);
+        if (this.questionData.checked) {
+            this.onSubmit(this.questionData);
             return;
         }
 
-        this.checked = true;
+        this.questionData.checked = true;
         pointer.classList.add('checked');
-        const data = this.question.data;
+        const data = this.questionData.data;
         let result = [];
         for (let i = data.left; i <= data.right; i++) {
             wordElement.children[i].classList.remove('hover');
@@ -63,11 +66,11 @@ class Spelling extends QuestionController {
             }
             wordElement.children[i].innerHTML = data.word.spell[i];
         }
-        this.question.result = result;
+        this.questionData.result = result;
     }
 
     typeIn(input) {
-        const position = this.question.data.left + this.cursor;
+        const position = this.questionData.data.left + this.cursor;
         this.cursor++;
         this.updateCursor(this.cursor);
         if (position > this.right) {
@@ -80,7 +83,7 @@ class Spelling extends QuestionController {
     erase() {
         this.cursor--;
 
-        const data = this.question.data;
+        const data = this.questionData.data;
         const position = this.cursor + data.left;
         if (position >= data.left && position <= data.right) {
             wordElement.children[position].innerHTML = '_';
@@ -89,7 +92,7 @@ class Spelling extends QuestionController {
     }
 
     updateCursor() {
-        const data = this.question.data;
+        const data = this.questionData.data;
         this.cursor = clamp(this.cursor, 0, data.width + 1);
 
         const position = this.cursor + data.left;
@@ -97,7 +100,7 @@ class Spelling extends QuestionController {
     }
 
     setQuestion(question) {
-        this.checked = false;
+        super.setQuestion(question);
         pointer.classList.remove('checked');
 
         meaningElement.innerHTML = question.definition_cn;
@@ -111,12 +114,12 @@ class Spelling extends QuestionController {
         const width = right - left;
         this.cursor = 0;
 
-        this.question = new QuestionData(
-            'spell',
+        this.questionData = new QuestionData(
+            TYPE_SPELLING,
             new SpellData(question, left, right, width)
         );
 
-        Object.freeze(this.question.data);
+        Object.freeze(this.questionData.data);
         this.updateCursor();
 
         for (let i = 0; i < length; i++) {
@@ -138,7 +141,7 @@ class Spelling extends QuestionController {
             return;
         }
 
-        if (this.checked) {
+        if (this.questionData.checked) {
             if (e.key === 'Enter') {
                 this.submit();
             }
@@ -169,7 +172,6 @@ class Spelling extends QuestionController {
 }
 
 const spell_controller = new Spelling();
-window.child_controller = spell_controller;
 
 document.addEventListener('keydown', e => spell_controller.onKeyDown(e));
 function clamp(value, min, max) {

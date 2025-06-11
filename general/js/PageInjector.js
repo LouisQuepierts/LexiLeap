@@ -40,7 +40,7 @@ export class PageInjector {
 
                     this.mapping[name] = {
                         element: div,
-                        controller: window.child_controller
+                        controller: window.child_controller[name]
                     };
 
                     callback(this.mapping[name]);

@@ -11,9 +11,16 @@ export class Word {
 export class Words {
     static localWords;
 
-    static async random() {
+    static async random(last = null) {
         await Words.get();
-        return this.localWords[Math.floor(Math.random() * Words.localWords.length)];
+        let word = Words.localWords[Math.floor(Math.random() * Words.localWords.length)];
+        if (last) {
+            while (last === word) {
+                word = Words.localWords[Math.floor(Math.random() * Words.localWords.length)];
+            }
+        }
+
+        return word;
     }
 
     static async get() {
@@ -40,7 +47,7 @@ export class Words {
         try {
             const response = await UrlUtils.post("general", "word/fetch", "include", {
                 "offset": 0,
-                "limit": 20
+                "limit": 100
             });
 
             if (!response.ok) {
