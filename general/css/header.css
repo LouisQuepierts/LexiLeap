@@ -22,7 +22,7 @@
 }
 
 .header-nav {
-    background-color: #f1ede0;
+    background-color: #f1ede080;
     width: 88%; /* 宽度88% */
     max-width: 1200px;
     z-index: 50;/* 设置层级（用于控制元素重叠时的显示顺序） */
@@ -33,11 +33,15 @@
     padding: 0 3%;
     margin: 1rem auto;
 
-    transition: background-color 0.5s;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+
+    transition: background-color 0.5s, backdrop-filter 0.5s;
+    backdrop-filter: blur(6px);
 }
 
 .header-nav:hover {
-    background-color: #e1ddd0;
+    background-color: #e1ddd080;
+    backdrop-filter: blur(12px);
 }
 
 .header-links{

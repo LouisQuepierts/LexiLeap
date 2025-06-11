@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - LexiLeap</title>
+    <link rel="stylesheet" href="../../general/css/header.css">
+    <link rel="stylesheet" href="../../user/css/person1.css">
+</head>
+<body>
+<!-- 导航栏 - 保持不变 -->
+<div id="main-header">
+    <div class="header-nav">
+        <h3 class="logo-text">LexiLeap</h3>
+        <nav class="header-links">
+            <a href="#" class="nav-link">练习</a>
+            <a href="#" class="nav-link">词库</a>
+            <a href="#" class="nav-link">记录</a>
+            <a href="#" class="nav-link active">个人</a>
+        </nav>
+    </div>
+</div>
+
+<!-- 主内容区域 -->
+<main class="user-profile-container">
+    <div class="profile-header">
+        <div class="user-avatar-container">
+            <img src="https://picsum.photos/200/200" alt="用户头像" id="user-avatar">
+            <label for="avatar-upload" class="avatar-upload-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 4h-3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path>
+                    <circle cx="10" cy="14" r="3"></circle>
+                </svg>
+                更换头像
+            </label>
+            <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+        </div>
+        <div class="user-info">
+            <h1 class="user-name" id="display-name">用户名</h1>
+            <p class="user-id">用户ID: <span id="user-id">user_12345</span></p>
+        </div>
+    </div>
+
+    <div class="profile-tabs">
+        <button class="tab-btn active" data-tab="profile">个人信息</button>
+        <button class="tab-btn" data-tab="password">修改密码</button>
+        <button class="tab-btn" data-tab="word-set">我的词库</button>
+    </div>
+
+    <div class="tab-content">
+        <!-- 个人信息标签页 -->
+        <div id="profile" class="tab-pane active">
+            <form id="profile-form" class="form-container">
+                <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" id="username" value="用户名" placeholder="请输入新用户名">
+                </div>
+                <div class="form-group">
+                    <label for="email">电子邮箱</label>
+                    <input type="email" id="email" value="user@example.com" placeholder="请输入电子邮箱">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="save-btn" id="save-profile">保存修改</button>
+                    <button type="reset" class="cancel-btn">取消</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 修改密码标签页 -->
+        <div id="password" class="tab-pane">
+            <form id="password-form" class="form-container">
+                <div class="form-group">
+                    <label for="old-password">当前密码</label>
+                    <input type="password" id="old-password" placeholder="请输入当前密码">
+                </div>
+                <div class="form-group">
+                    <label for="new-password">新密码</label>
+                    <input type="password" id="new-password" placeholder="请输入新密码">
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">确认新密码</label>
+                    <input type="password" id="confirm-password" placeholder="请再次输入新密码">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="save-btn" id="save-password">保存修改</button>
+                    <button type="reset" class="cancel-btn">取消</button>
+                </div>
+            </form>
+        </div>
+
+
+
+    <!-- 练习数据统计区域 -->
+    <div class="stats-container">
+        <h2 class="section-title">练习统计</h2>
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="stat-value" id="total-exercises">0</div>
+                <div class="stat-label">已练习题目</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="correct-rate">0%</div>
+                <div class="stat-label">正确率</div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+</main>
+
+<footer class="page-footer">
+    <p>© 2025 LexiLeap. 保留所有权利</p>
+</footer>
+
+<script src="../../user/js/person2.js"></script>
+</body>
+</html>

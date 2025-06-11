@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LexiLeap - 管理员编辑页面</title>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../admin/css/amdin-page.css">
+    <link rel="stylesheet" href="../general/css/header.css">
+</head>
+<body>
+<!-- 导航栏 - 保持不变 -->
+<div id="main-header">
+    <div class="header-nav">
+        <h3 class="logo-text">LexiLeap</h3>
+    </div>
+</div>
+
+<!-- 主内容区 -->
+<main class="container">
+    <!-- 顶部操作区 -->
+    <div class="top-actions">
+        <h1>单词管理</h1>
+        <div class="button-group">
+            <button id="import-btn" class="btn-primary">
+                <i class="fa fa-upload"></i>
+                <span>导入单词</span>
+            </button>
+            <button id="delete-selected-btn" class="btn-danger" disabled>
+                <i class="fa fa-trash"></i>
+                <span>删除所选</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 单词列表 -->
+    <div class="word-list-container">
+        <div class="table-container">
+            <table class="word-table">
+                <thead>
+                <thead>
+                <tr>
+                    <th class="select-all-col">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="select-all">
+                            <span class="checkbox-custom"></span>
+                        </label>
+                    </th>
+                    <th>ID</th>
+                    <th>英文单词</th>
+                    <th>中文定义</th>
+                    <th>英文定义</th>
+                    <th>例句</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id="word-list">
+                <!-- 单词条目将通过JavaScript动态生成 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<!-- 编辑卡片模态框 -->
+<div id="edit-card" class="modal">
+    <div class="edit-card-content card">
+        <div class="card-header">
+            <h3>编辑单词</h3>
+            <button id="close-edit-card" class="close-btn">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+        <form id="edit-form">
+            <input type="hidden" id="edit-id">
+            <div class="form-grid">
+                <!-- 第一行：英文单词 -->
+                <div class="form-group full-width">
+                    <label for="edit-word">英文单词</label>
+                    <input type="text" id="edit-word" class="form-input">
+                </div>
+                <!-- 第二行：中文定义（左） + 英文定义（右） -->
+                <div class="form-group chinese-def">
+                    <label for="edit-chinese-def">中文定义</label>
+                    <textarea id="edit-chinese-def" rows="3" class="form-input"></textarea>
+                </div>
+                <div class="form-group english-def">
+                    <label for="edit-english-def">英文定义</label>
+                    <textarea id="edit-english-def" rows="3" class="form-input"></textarea>
+                </div>
+                <!-- 第三行：例句（全宽） -->
+                <div class="form-group full-width">
+                    <label for="edit-example">例句</label>
+                    <textarea id="edit-example" rows="4" class="form-input"></textarea>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" id="cancel-edit" class="btn-outline">取消</button>
+                <button type="submit" class="btn-primary">保存修改</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 通知提示 -->
+<div id="notification" class="notification">
+    <i id="notification-icon" class="fa fa-check-circle"></i>
+    <span id="notification-message">操作成功</span>
+</div>
+
+<script src="../admin/js/admin-page.js"></script>
+</body>
+</html>
