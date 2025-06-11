@@ -1,4 +1,4 @@
-export const URL = "http://localhost/lexileap/";
+export const URL = "http://localhost/lexileap/backend/";
 export const SUBFIX = ".php";
 
 export class UrlUtils {
