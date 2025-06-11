@@ -2,13 +2,15 @@ export class PageInjector {
     destID;
     srcSubfix;
     mapping;
+    basePath;
 
     container;
     current;
 
-    constructor(destID, srcID, document) {
+    constructor(destID, srcID, basePath, document) {
         this.destID = destID;
         this.srcSubfix = srcID;
+        this.basePath = basePath;
         this.container = document.getElementById(this.destID);
 
         this.mapping = [];
@@ -81,9 +83,11 @@ export class PageInjector {
                         // 外部样式表需要等待加载完成
                         const newLink = document.createElement('link');
                         newLink.rel = 'stylesheet';
-                        newLink.href = style.href;
+                        newLink.href = new URL(style.href, this.basePath).href;
                         newLink.onload = resolve;
                         newLink.onerror = reject;
+
+                        console.log(new URL(style.href, this.basePath).href);
                         document.head.appendChild(newLink);
                     }
                 } catch (e) {

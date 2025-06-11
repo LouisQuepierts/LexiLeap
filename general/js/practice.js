@@ -1,10 +1,11 @@
 import { PageInjector } from "./PageInjector.js";
 import {QuestionController, QuestionHistory} from "./exercise/QuestionController.js";
 
-const url = "../view/question/"
+const url = "/LexiLeap/general/view/practice/"
 
 const question_types = [
-    "spelling"
+    "spelling",
+    "multiple-choice",
 ]
 
 let controllers = [];
@@ -12,7 +13,12 @@ let future_question;
 
 const MAX_REMAIN = 5;
 
-const injector = new PageInjector("question-content", "-source", document);
+const injector = new PageInjector(
+    "question-content",
+    "-source",
+    window.location.origin + "/LexiLeap/general/view/question/",
+    document
+);
 const history = new QuestionHistory(100);
 
 class FutureQuestion {

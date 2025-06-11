@@ -3,7 +3,8 @@ import {Words} from "../Words.js";
 
 export class QuestionController extends Controller {
     submitCallback;
-    questionWord = null;
+    questionWord;
+    questionData;
 
     constructor(type) {
         super();

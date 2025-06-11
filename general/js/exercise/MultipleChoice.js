@@ -1,5 +1,13 @@
 import {QuestionController} from "./QuestionController.js";
 
-export class MultipleChoice extends QuestionController {
+const TYPE_MULTIPLE_CHOICE = "multiple-choice"
 
+class MultipleChoiceData {
+
+}
+
+export class MultipleChoice extends QuestionController {
+    constructor() {
+        super(TYPE_MULTIPLE_CHOICE);
+    }
 }
