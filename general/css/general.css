@@ -11,6 +11,7 @@ body {
 
 .hidden  {
     display: none;
+    visibility: hidden;
 }
 
 .warning {
@@ -18,4 +19,42 @@ body {
     font-family: Consolas monospace;
     font-weight: bold;
     horiz-align: center;
+}
+
+.tags {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f1ede0;
+    padding: 3px 12px;
+    border-radius: 16px;
+    margin-top: 10px;
+
+    transition: background-color 0.25s ease-out;
+}
+
+.tag:hover {
+    background-color: #e1ddd0;
+}
+
+.tag-name {
+    font-family: Consolas monospace;
+    font-weight: bold;
+    color: #7f7f7f;
+    font-size: 16px;
+    margin-left: 8px;
+    transform: translateY(-2px);
+}
+
+.tag-node {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
 }
