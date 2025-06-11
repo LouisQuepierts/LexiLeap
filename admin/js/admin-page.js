@@ -1,11 +1,7 @@
 // 模拟数据 - 在实际应用中，这部分应该从API获取
-let mockWords = [
-    { id: 1, word: "abandon", chineseDef: "放弃", englishDef: "cease to support or look after (someone); desert.", example: "She abandoned her cat when she moved to another country." },
-    { id: 2, word: "absorb", chineseDef: "吸收", englishDef: "take in or soak up (energy or a liquid or other substance) by chemical or physical action.", example: "Plants absorb carbon dioxide during photosynthesis." },
-    { id: 3, word: "abundant", chineseDef: "丰富的", englishDef: "existing or available in large quantities; plentiful.", example: "The region has abundant natural resources." },
-    { id: 4, word: "accomplish", chineseDef: "完成", englishDef: "achieve or complete successfully.", example: "They managed to accomplish their goal before the deadline." },
-    { id: 5, word: "accustomed", chineseDef: "习惯的", englishDef: "used to (something, typically something uncomfortable or unwelcome).", example: "She was accustomed to working long hours." }
-];
+import {Words} from "../../general/js/Words.js";
+
+let mockWords = await Words.get();
 
 // DOM元素
 const wordList = document.getElementById('word-list');
@@ -66,7 +62,53 @@ function renderWordList(words) {
     // 添加事件监听器
     setupEventListeners();
 }
+//导入文件
+document.getElementById('import-btn').addEventListener('click', () => {
+    // 触发隐藏的文件输入框
+    document.getElementById('file-input').click();
+});
 
+document.getElementById('file-input').addEventListener('change', (event) => {
+    const file = event.target.files[0];
+
+    // 验证文件类型
+    if (!file.name.endsWith('.json')) {
+        alert('请选择.json格式的文件');
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+        const content = e.target.result;
+        // 处理文件内容（示例：按行分割）
+        const lines = content.split('\n').filter(line => line.trim());
+
+        // 调用你的单词处理函数
+        processImportedWords(lines);
+
+        // 重置文件输入，允许重复选择同一文件
+        event.target.value = '';
+    };
+
+    reader.onerror = () => {
+        alert('文件读取失败');
+    };
+
+    reader.readAsText(file);
+});
+
+// 示例处理函数（需根据你的实际需求实现）
+function processImportedWords(wordLines) {
+    console.log('导入的单词数据：', wordLines);
+    // 这里添加你的业务逻辑，比如：
+    // 1. 解析每行数据
+    // 2. 验证格式
+    // 3. 添加到单词列表
+    // 4. 显示成功提示
+
+    alert(`成功导入 ${wordLines.length} 个单词`);
+}
 // 设置事件监听器
 function setupEventListeners() {
     // 编辑按钮点击事件
@@ -210,11 +252,7 @@ function showNotification(message, type = 'success') {
     }, 3000);
 }
 
-// 导入单词按钮点击事件
-document.getElementById('import-btn').addEventListener('click', () => {
-    // 这里应该打开导入对话框
-    alert('导入功能将在后续版本中实现');
-});
+
 
 // 初始化页面
 document.addEventListener('DOMContentLoaded', () => {
