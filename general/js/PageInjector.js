@@ -21,6 +21,7 @@ export class PageInjector {
     }
 
     async _load(name, page, show, callback) {
+        console.log(page)
         window.use_inject = true;
         await fetch(page)
             .then(res => res.text())
@@ -83,11 +84,9 @@ export class PageInjector {
                         // 外部样式表需要等待加载完成
                         const newLink = document.createElement('link');
                         newLink.rel = 'stylesheet';
-                        newLink.href = new URL(style.href, this.basePath).href;
+                        newLink.href = style.href;
                         newLink.onload = resolve;
                         newLink.onerror = reject;
-
-                        console.log(new URL(style.href, this.basePath).href);
                         document.head.appendChild(newLink);
                     }
                 } catch (e) {

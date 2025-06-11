@@ -13,6 +13,10 @@ export class QuestionController extends Controller {
             window.child_controller = [];
         }
         window.child_controller[type] = this;
+
+        if (!window.use_inject) {
+            document.addEventListener('keydown', this.onKeyDown);
+        }
     }
 
     setSubmitCallback(callback) {
@@ -31,17 +35,23 @@ export class QuestionController extends Controller {
         throw new Error('Method not implemented.');
     }
 
-    setQuestion(question) {
+    async setQuestion(question) {
         this.questionWord = question;
     }
 
-    onKeyDown(e) {
-        throw new Error('Method not implemented.');
-    }
+    onKeyDown(e) {}
 
     async next() {
-        const question = await Words.random(this.questionWord);
-        this.setQuestion(question);
+        const question = (await Words.random())[0];
+        await this.setQuestion(question);
+    }
+
+    static setTag(tagsElement, tagsData) {
+        tagsElement.innerHTML = ``;
+        for (let i = 0; i < tagsData.length; i++) {
+            const tag = tagsData[i];
+            tagsElement.innerHTML += `<div class="tag"><div class="tag-node" style="background-color: ${tag.color};"></div><span class="tag-name">${tag.name}</span></div>`
+        }
     }
 }
 
@@ -72,12 +82,14 @@ export class QuestionHistory {
 
 export class QuestionData {
     type;
+    word;
     data;
     result;
     checked = false;
 
-    constructor(type, data) {
+    constructor(type, word, data) {
         this.type = type;
+        this.word = word;
         this.data = data;
     }
 }

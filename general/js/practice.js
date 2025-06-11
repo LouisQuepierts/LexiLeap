@@ -8,18 +8,17 @@ const question_types = [
     "multiple-choice",
 ]
 
-let controllers = [];
-let future_question;
-
 const MAX_REMAIN = 5;
 
 const injector = new PageInjector(
     "question-content",
     "-source",
-    window.location.origin + "/LexiLeap/general/view/question/",
+    url,
     document
 );
 const history = new QuestionHistory(100);
+let controllers = [];
+let future_question;
 
 class FutureQuestion {
     type;
@@ -43,8 +42,18 @@ class FutureQuestion {
     }
 }
 
-function onSubmitCallback(controller, question) {
-    history.push(question);
+async function init() {
+    for (const type of question_types) {
+        await injector.load(type, type + ".html", page => {
+            if (page.controller instanceof QuestionController) {
+                page.controller.setSubmitCallback(onSubmitCallback);
+                controllers[type] = page.controller;
+            }
+        });
+    }
+
+    injector.inject(question_types[0]);
+    controllers[question_types[0]].next();
     nextQuestion();
 }
 
@@ -58,14 +67,15 @@ function nextQuestion() {
     }
 }
 
-for (const type of question_types) {
-    await injector.load(type, url + type + ".html", page => {
-        if (page.controller instanceof QuestionController) {
-            page.controller.setSubmitCallback(onSubmitCallback);
-            controllers[type] = page.controller;
-        }
-    });
+function onSubmitCallback(controller, question) {
+    history.push(question);
+    nextQuestion();
 }
 
-injector.inject("spelling");
-controllers["spelling"].next();
+init().then(() => {});
+document.addEventListener('keydown', e => {
+    if (e.key === " ") {
+        nextQuestion();
+    }
+    future_question.controller.onKeyDown(e);
+});

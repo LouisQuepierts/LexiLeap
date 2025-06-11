@@ -10,17 +10,44 @@ export class Word {
 
 export class Words {
     static localWords;
+    static sequence = [];
+    static pointer = 0;
 
-    static async random(last = null) {
+    static async random(n = 1) {
         await Words.get();
-        let word = Words.localWords[Math.floor(Math.random() * Words.localWords.length)];
-        if (last) {
-            while (last === word) {
-                word = Words.localWords[Math.floor(Math.random() * Words.localWords.length)];
-            }
+
+        if (n === 0) {
+            return this.localWords[0];
+        }
+
+        const word = [];
+        for (let i = 0; i < n; i++) {
+            word.push(this.localWords[this.sequence[this.pointer]]);
+            this.pointer = (this.pointer + 1) % this.localWords.length;
         }
 
         return word;
+    }
+
+    static async random_no_dup(amount, last = null) {
+        await Words.get();
+        const words = Words.localWords;
+        let i = [];
+        if (last) {
+
+        }
+    }
+
+    static _gen_sequence(min, max) {
+        const length = max - min + 1;
+        const arr = Array.from({ length: length }, (_, index) => index + min);
+
+        for (let i = length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+
+        this.sequence = arr;
     }
 
     static async get() {
@@ -33,12 +60,14 @@ export class Words {
             Words.localWords = JSON.parse(wordStorage);
             console.log('get from sessionStorage');
             console.log(Words.localWords);
+            this._gen_sequence(0, Words.localWords.length - 1);
             return Words.localWords;
         } else {
             const words = await Words.fetch();
             console.log(words);
             Words.localWords = words;
             sessionStorage.setItem('localWords', JSON.stringify(words));
+            this._gen_sequence(0, Words.localWords.length - 1);
             return Words.localWords;
         }
     }
