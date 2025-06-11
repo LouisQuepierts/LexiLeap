@@ -43,7 +43,7 @@ try {
         }
 
         $response['data']['words'][$i] = [
-            'id' => $w['id'],
+            'id' => (int) $w['id'],
             'spell' => $w['spell'],
             'definition_cn' => $w['definition_cn'],
             'definition_en' => $w['definition_en'],

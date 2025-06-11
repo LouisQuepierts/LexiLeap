@@ -1,7 +1,7 @@
 // 模拟数据 - 在实际应用中，这部分应该从API获取
 import {Words} from "../../general/js/Words.js";
 
-let mockWords = await Words.get();
+let mockWords;
 
 // DOM元素
 const wordList = document.getElementById('word-list');
@@ -46,10 +46,10 @@ function renderWordList(words) {
                 </label>
             </td>
             <td><span class="word-id">${word.id}</span></td>
-            <td><span class="word-text">${word.word}</span></td>
-            <td>${word.chineseDef}</td>
-            <td>${word.englishDef}</td>
-            <td>${word.example}</td>
+            <td><span class="word-text">${word.spell}</span></td>
+            <td>${word.definition_cn}</td>
+            <td>${word.definition_en}</td>
+            <td>${word.example_sentence}</td>
             <td>
                 <button class="edit-btn" data-id="${word.id}">
                     <i class="fa fa-pencil"></i>
@@ -176,10 +176,10 @@ deleteSelectedBtn.addEventListener('click', () => {
 // 打开编辑卡片
 function openEditCard(word) {
     editId.value = word.id;
-    editWord.value = word.word;
-    editChineseDef.value = word.chineseDef;
-    editEnglishDef.value = word.englishDef;
-    editExample.value = word.example;
+    editWord.value = word.spell;
+    editChineseDef.value = word.definition_cn;
+    editEnglishDef.value = word.definition_en;
+    editExample.value = word.example_sentence;
 
     editCard.classList.add('active');
 }
@@ -202,14 +202,14 @@ editForm.addEventListener('submit', (e) => {
     const id = parseInt(editId.value);
     const updatedWord = {
         id,
-        word: editWord.value.trim(),
-        chineseDef: editChineseDef.value.trim(),
-        englishDef: editEnglishDef.value.trim(),
-        example: editExample.value.trim()
+        spell: editWord.value.trim(),
+        definition_cn: editChineseDef.value.trim(),
+        definition_en: editEnglishDef.value.trim(),
+        example_sentence: editExample.value.trim()
     };
 
     // 验证输入
-    if (!updatedWord.word) {
+    if (!updatedWord.spell) {
         showNotification('英文单词不能为空', 'error');
         return;
     }
@@ -256,5 +256,8 @@ function showNotification(message, type = 'success') {
 
 // 初始化页面
 document.addEventListener('DOMContentLoaded', () => {
-    renderWordList(mockWords);
+    Words.get().then(words => {
+        mockWords = words;
+        renderWordList(mockWords)
+    })
 });
