@@ -1,0 +1,120 @@
+/* 基础样式 */
+:root {
+    --primary-bg: #fff8dc;
+    --primary-text: #404040;
+    --accent: #FF9800;
+    --correct: #4CAF50;
+    --incorrect: #F44336;
+    --highlight: #FFEB3B;
+    --border: #e0e0e0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--primary-bg);
+    color: var(--primary-text);
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 开始页面样式 */
+.start-page {
+    text-align: center;
+    animation: fadeIn 1s ease;
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.logo {
+    max-width: 200px;
+    height: auto;
+}
+
+.enter-prompt {
+    font-size: 1.5rem;
+    color: var(--accent);
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+
+/* 练习页面样式 */
+.quiz-page {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+/* 问题容器 */
+.practice-container {
+    text-align: center; /* 文本内容居中 */
+    user-select: none; /* 禁止用户选中文本 */
+    -webkit-user-select: none; /* Safari 浏览器前缀 */
+    -moz-user-select: none; /* Firefox 浏览器前缀 */
+    -ms-user-select: none; /* IE 浏览器前缀 */
+}
+
+/* 答案选项区域样式 */
+.answer-options {
+    display: flex;                      /* 使用flex布局 */
+    flex-wrap: wrap;                    /* 允许选项换行 */
+    justify-content: center;            /* 水平居中对齐选项 */
+    gap: 10px;                          /* 设置选项之间的间距为10px */
+    margin-bottom: 20px;                /* 设置底部外边距为20px */
+}
+/* 单词显示区域 */
+.word {
+    font-size: 48px; /* 单词字体大小 */
+    display: flex; /* 使用 Flexbox 布局 */
+    align-items: center;
+    justify-content: center;
+}
+
+/* 光标样式 */
+#cursor {
+    font-size: 56px; /* 光标字体大小 */
+    position: relative; /* 相对定位 */
+    color: #f97316; /* 光标颜色（橙色） */
+    top: -8px; /* 向上偏移 8px */
+    left: 6px; /* 向右偏移 6px */
+    transition: 0.1s ease-out; /* 过渡动画效果 */
+    animation: block-blink 1s infinite; /* 应用闪烁动画 */
+}
+
+#cursor.checked {
+    color: transparent; /* 提交后光标变透明 */
+    animation: none; /* 取消闪烁动画 */
+}
+
+@keyframes block-blink {
+    0%, 100% { color: #f97316; } /* 开始和结束时显示橙色 */
+    50% { color: transparent; } /* 中间时刻变透明 */
+}
+/*word 字母样式*/
+#word {
+    font-family: Consolas, monospace; /* 使用等宽字体，确保字母间距一致 */
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+}
+
+letter {
+    color: #808080; /* 未填写字母的默认颜色（灰色） */
+    transition: color 0.25s ease-out; /* 颜色变化的过渡效果 */
+}

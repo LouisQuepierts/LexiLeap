@@ -1,0 +1,12 @@
+.matching-selections {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 2rem;
+    min-width: 32rem;
+    min-height: 12rem;
+    column-gap: 0.5rem;
+}
+
+.matching-column {
+    display: flex;
+}
