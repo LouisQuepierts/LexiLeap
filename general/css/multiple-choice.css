@@ -1,0 +1,51 @@
+#multiple-choice-word {
+    font-family: Consolas, monospace;
+    align-items: center;
+    justify-content: center;
+}
+
+.selection-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    margin-top: 2rem;
+    min-width: 32rem;
+    min-height: 12rem;
+    column-gap: 0.5rem;
+}
+
+.selection-button {
+    font-size: 24px;
+    font-family: Consolas, monospace;
+    font-weight: bold;
+
+    color: #404040;
+    background-color: #fbf6e5;
+    border: 8px solid #e4e0c8;
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    margin: 4px 0;
+
+    transition: 0.2s ease;
+}
+
+.selection-button:hover {
+    background-color: #e5fbf8;
+    border: 8px solid #c8e1e4;
+}
+
+.selection-button.correct {
+    border-color: #74cf95;
+    background-color: #c3efd4;
+}
+
+.selection-button.incorrect {
+    border-color: #ea9292;
+    background-color: #f6cece;
+}
+
+.selection-button.blocked {
+    background-color: #dadada;
+    border: 8px solid #cacaca;
+    color: #7f7f7f;
+}

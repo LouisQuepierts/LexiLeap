@@ -1,9 +1,26 @@
 import { UrlUtils } from "../../url_utils.js";
 
+export class Word {
+    id;
+    spell;
+    definition_cn;
+    definition_en;
+    example_sentence;
+}
+
 export class Words {
     static localWords;
 
+    static async random() {
+        await Words.get();
+        return this.localWords[Math.floor(Math.random() * Words.localWords.length)];
+    }
+
     static async get() {
+        if (Words.localWords) {
+            return Words.localWords;
+        }
+
         let wordStorage = sessionStorage.getItem('localWords');
         if (wordStorage !== null && wordStorage !== undefined && wordStorage) {
             Words.localWords = JSON.parse(wordStorage);

@@ -1,17 +1,4 @@
-.word-container {
-    text-align: center;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-}
-
-.word {
-    font-size: 48px;
-    display: flex;
-}
-
-#spell-cursor {
+#spelling-cursor {
     font-size: 56px;
     position: relative;
     color: #f97316;
@@ -22,7 +9,7 @@
     animation: block-blink 1s infinite;
 }
 
-#spell-cursor.checked {
+#spelling-cursor.checked {
     color: transparent;
     animation: none;
 }
@@ -32,7 +19,7 @@
     50% { color: transparent; }
 }
 
-#spell-word {
+#spelling-word {
     font-family: Consolas, monospace;
     align-items: center;
     justify-content: center;
@@ -64,46 +51,8 @@ letter.hover {
 }
 
 /* 中文释义样式 */
-#spell-meaning {
+#spelling-meaning {
     font-size: 20px;
     color: #657b83;
     margin-top: 20px;
-}
-
-#spell-tags {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    justify-content: center;
-}
-
-.tag {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f1ede0;
-    padding: 3px 12px;
-    border-radius: 16px;
-    margin-top: 10px;
-
-    transition: background-color 0.25s ease-out;
-}
-
-.tag:hover {
-    background-color: #e1ddd0;
-}
-
-.tag-name {
-    font-family: Consolas monospace;
-    font-weight: bold;
-    color: #7f7f7f;
-    font-size: 16px;
-    margin-left: 8px;
-    transform: translateY(-2px);
-}
-
-.tag-node {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
 }

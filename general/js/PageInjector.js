@@ -14,7 +14,11 @@ export class PageInjector {
         this.mapping = [];
     }
 
-    async load(name, page, show = false) {
+    async load(name, page, callback) {
+        await this._load(name, page, false, callback)
+    }
+
+    async _load(name, page, show, callback) {
         window.use_inject = true;
         await fetch(page)
             .then(res => res.text())
@@ -39,6 +43,7 @@ export class PageInjector {
                         controller: window.child_controller
                     };
 
+                    callback(this.mapping[name]);
                     console.log(`Loaded page: ${name}`);
 
                     if (show) {
