@@ -4,8 +4,9 @@ import {QuestionController, QuestionHistory} from "./exercise/QuestionController
 const url = "/LexiLeap/general/view/practice/"
 
 const question_types = [
-    "spelling",
-    "multiple-choice",
+    // "spelling",
+    // "multiple-choice",
+    "matching",
 ]
 
 const MAX_REMAIN = 5;
@@ -74,8 +75,10 @@ function onSubmitCallback(controller, question) {
 
 init().then(() => {});
 document.addEventListener('keydown', e => {
-    if (e.key === " ") {
+    if (e.key === "]") {
         nextQuestion();
+        e.stopPropagation();
+        return;
     }
     future_question.controller.onKeyDown(e);
 });
