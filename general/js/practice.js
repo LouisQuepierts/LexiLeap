@@ -75,8 +75,10 @@ function onSubmitCallback(controller, question) {
 
 init().then(() => {});
 document.addEventListener('keydown', e => {
-    if (e.key === " ") {
+    if (e.key === "]") {
         nextQuestion();
+        e.stopPropagation();
+        return;
     }
     future_question.controller.onKeyDown(e);
 });
