@@ -1,4 +1,4 @@
-import { UrlUtils } from "../../url_utils.js";
+import { UrlUtils } from "../../UrlUtils.class.js";
 
 export class Word {
     id;
@@ -8,13 +8,13 @@ export class Word {
     example_sentence;
 }
 
-export class Words {
+export class WordsClass {
     static localWords;
     static sequence = [];
     static pointer = 0;
 
     static async random(n = 1) {
-        await Words.get();
+        await WordsClass.get();
 
         if (n === 0) {
             return this.localWords[0];
@@ -30,8 +30,8 @@ export class Words {
     }
 
     static async random_no_dup(amount, last = null) {
-        await Words.get();
-        const words = Words.localWords;
+        await WordsClass.get();
+        const words = WordsClass.localWords;
         let i = [];
         if (last) {
 
@@ -51,24 +51,24 @@ export class Words {
     }
 
     static async get() {
-        if (Words.localWords) {
-            return Words.localWords;
+        if (WordsClass.localWords) {
+            return WordsClass.localWords;
         }
 
         let wordStorage = sessionStorage.getItem('localWords');
         if (wordStorage !== null && wordStorage !== undefined && wordStorage) {
-            Words.localWords = JSON.parse(wordStorage);
+            WordsClass.localWords = JSON.parse(wordStorage);
             console.log('get from sessionStorage');
-            console.log(Words.localWords);
-            this._gen_sequence(0, Words.localWords.length - 1);
-            return Words.localWords;
+            console.log(WordsClass.localWords);
+            this._gen_sequence(0, WordsClass.localWords.length - 1);
+            return WordsClass.localWords;
         } else {
-            const words = await Words.fetch();
+            const words = await WordsClass.fetch();
             console.log(words);
-            Words.localWords = words;
+            WordsClass.localWords = words;
             sessionStorage.setItem('localWords', JSON.stringify(words));
-            this._gen_sequence(0, Words.localWords.length - 1);
-            return Words.localWords;
+            this._gen_sequence(0, WordsClass.localWords.length - 1);
+            return WordsClass.localWords;
         }
     }
 

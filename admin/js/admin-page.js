@@ -1,5 +1,5 @@
 // 模拟数据 - 在实际应用中，这部分应该从API获取
-import {Words} from "../../general/js/Words.js";
+import {WordsClass} from "../../general/js/Words.class.js";
 
 let mockWords;
 
@@ -256,7 +256,7 @@ function showNotification(message, type = 'success') {
 
 // 初始化页面
 document.addEventListener('DOMContentLoaded', () => {
-    Words.get().then(words => {
+    WordsClass.get().then(words => {
         mockWords = words;
         renderWordList(mockWords)
     })

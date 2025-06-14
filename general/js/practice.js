@@ -1,5 +1,5 @@
-import { PageInjector } from "./PageInjector.js";
-import {QuestionController, QuestionHistory} from "./exercise/QuestionController.js";
+import { PageInjector } from "./PageInjector.class.js";
+import {QuestionController, QuestionHistory} from "./exercise/QuestionController.class.js";
 
 const url = "/LexiLeap/general/view/practice/"
 

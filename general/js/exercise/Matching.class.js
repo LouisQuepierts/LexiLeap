@@ -1,5 +1,5 @@
-import {QuestionController, QuestionData} from "./QuestionController.js";
-import {Words} from "../Words.js";
+import {QuestionController, QuestionData} from "./QuestionController.class.js";
+import {WordsClass} from "../Words.class.js";
 
 const TYPE_MATCHING = "matching";
 const ENTRIES_COUNT = 4;
@@ -64,7 +64,7 @@ class Matching extends QuestionController {
     async setQuestion(question) {
         this.resetStatus();
 
-        const other = await Words.random(ENTRIES_COUNT - 1);
+        const other = await WordsClass.random(ENTRIES_COUNT - 1);
         const words = [question, ...other];
         const order = Array.from({length: ENTRIES_COUNT}, (_, index) => index);
 

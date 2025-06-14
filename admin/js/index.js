@@ -1,4 +1,4 @@
-import { UrlUtils } from "../../url_utils.js";
+import { UrlUtils } from "../../UrlUtils.class.js";
 
 UrlUtils.post("admin", "verify_token", "include"
 ).then(

@@ -1,4 +1,4 @@
-import { UrlUtils } from "../../url_utils.js";
+import { UrlUtils } from "../../UrlUtils.class.js";
 
 window.sign_in = sign_in;
 window.sign_up = sign_up;

@@ -1,5 +1,5 @@
-import {Controller} from "./Controller.js";
-import {Words} from "../Words.js";
+import {Controller} from "./Controller.class.js";
+import {WordsClass} from "../Words.class.js";
 
 export class QuestionController extends Controller {
     submitCallback;
@@ -42,7 +42,7 @@ export class QuestionController extends Controller {
     onKeyDown(e) {}
 
     async next() {
-        const question = (await Words.random())[0];
+        const question = (await WordsClass.random())[0];
         await this.setQuestion(question);
     }
 

@@ -1,4 +1,4 @@
-import {QuestionData, QuestionController} from "./QuestionController.js";
+import {QuestionData, QuestionController} from "./QuestionController.class.js";
 
 const regx = /^[a-zA-Z\-]$/;
 

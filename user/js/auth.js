@@ -1,4 +1,4 @@
-import {UrlUtils} from "../../url_utils.js";
+import {UrlUtils} from "../../UrlUtils.class.js";
 
 async function _auth() {
     try {
