@@ -98,7 +98,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 头像上传
         document.getElementById('avatar-upload').addEventListener('change', function(e) {
-            if (this.files && this.files[0]) {
+            const updateFile = this.files[0];
+            if (this.files && updateFile) {
                 const reader = new FileReader();
 
                 reader.onload = function(e) {
@@ -112,9 +113,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             return;
                         }
 
-                        UrlUtils.upload('user', 'upload-avatar', file, function (success, res) {
-                            if (success) {
+                        UrlUtils.upload('user', 'upload-avatar', updateFile, function (success, res) {
+                            if (success && res.success) {
                                 alert("上传成功");
+                                document.getElementById('user-avatar').src = res.url;
                             } else {
                                 alert("上传失败");
                             }
@@ -123,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     image.src = e.target.result;
                 }
 
-                reader.readAsDataURL(this.files[0]);
+                reader.readAsDataURL(updateFile);
             }
         });
         // 添加标签页切换逻辑

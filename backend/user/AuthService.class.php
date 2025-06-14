@@ -210,29 +210,21 @@ class AuthService {
         $query->execute();
     }
 
+    public static function updateAvatar($id, $avatar) {
+        $db = Database::getInstance();
+        $query = $db->prepare('--sql
+        UPDATE user
+        SET avatar = :avatar
+        WHERE id = :id
+        ');
+        $query->bindParam('id', $id, PDO::PARAM_INT);
+        $query->bindParam('avatar', $avatar, PDO::PARAM_STR);
+        $query->execute();
+    }
+
     public static function encodeId(int $id, string $secret = "password"): string {
-        $key = substr(hash('sha256', $secret), 0, 16);
-        
-        // 创建一个初始化向量(IV)
-        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-128-cbc'));
-        
-        // 加密ID
-        $encrypted = openssl_encrypt(
-            $id,
-            'aes-128-cbc',
-            $key,
-            OPENSSL_RAW_DATA,
-            $iv
-        );
-        
-        // 将IV和加密后的数据拼接
-        $data = $iv . $encrypted;
-        
-        // 转换为16进制字符串
-        $hex = bin2hex($data);
-        
-        // 确保长度为16位，不足则补0
-        return str_pad(substr($hex, 0, 16), 16, '0', STR_PAD_RIGHT);
+        $hash = hash_hmac('sha256', (string)$id, $secret);
+        return substr($hash, 0, 16);
     }
 
     function decodeId(string $hex, string $secret = "password") {

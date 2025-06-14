@@ -1,6 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap/backend' . '/interface.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap/backend' . '/user/AuthService.class.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap/backend' . '/user/UserDataService.class.php';
 
 $response = [
     'message' => '',
@@ -22,7 +23,7 @@ try {
             'email' => $userdata['email'],
             'username'=> $userdata['username'],
             'uid' => AuthService::encodeId($uid),
-            'avatar' => $userdata['avatar'] ?:  '/lexileap/data/avatar/default.png',
+            'avatar' => $userdata['avatar'] ?:  UserDataService::defurl('avatar.png'),
         ];
     } catch (Exception $e) {
         $response['message'] = "Error getting user data: " . $e->getMessage();

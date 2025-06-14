@@ -32,12 +32,16 @@ export class UrlUtils {
         xhr.open("POST", UrlUtils.interface(module, interface0), true);
         xhr.withCredentials = true;
         xhr.onload = () => {
-            callback(true, xhr.response);
+            callback(true, JSON.parse(xhr.responseText));
         };
         xhr.onerror = () => {
-            callback(false, xhr.response);
+            callback(false, JSON.parse(xhr.responseText));
         };
 
-        xhr.send(form);
+        try {
+            xhr.send(form);
+        } catch (e) {
+            console.error(e);
+        }
     }
 }
