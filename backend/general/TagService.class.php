@@ -1,5 +1,5 @@
 <?php
-    require_once 'Database.php';
+    require_once 'Database.class.php';
     class TagService {
         private static $instance;
 

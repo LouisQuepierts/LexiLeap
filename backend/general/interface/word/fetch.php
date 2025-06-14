@@ -1,7 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap/backend' . '/interface.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap/backend' . '/general/WordService.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap/backend' . '/general/TagService.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap/backend' . '/general/WordService.class.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap/backend' . '/general/TagService.class.php';
 
 $response  = [
     'success' => false,
