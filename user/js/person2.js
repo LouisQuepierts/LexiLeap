@@ -1,16 +1,33 @@
+import {UrlUtils} from "../../url_utils.js";
+
 document.addEventListener('DOMContentLoaded', function() {
-    // 模拟用户数据
-    const userData = {
-        username: 'lexileaper',
-        email: 'lexileaper@example.com',
-        bio: '热爱学习新单词的语言爱好者',
-        avatar: 'https://picsum.photos/200/200?random=1',
-        exercisesCount: 56,
-        accuracyRate: 82
-    };
+    if (window.userdata) {
+        // 模拟用户数据
+        const userData = {
+            username: window.userdata.username,
+            id: window.userdata.uid,
+            email: window.userdata.email,
+            avatar: window.userdata.avatar,
+            exercisesCount: 56,
+            accuracyRate: 82
+        };
+
+        initializeUserData(userData);
+    } else {
+        window.addEventListener('userdata-loaded', (event) => {
+            const userData = {
+                username: event.detail.username,
+                email: event.detail.email,
+                uid: event.detail.uid,
+                avatar: event.detail.avatar,
+                exercisesCount: 56,
+                accuracyRate: 82
+            };
+            initializeUserData(userData);
+        })
+    }
 
     // 初始化页面数据
-    initializeUserData(userData);
 
     // 设置事件监听器
     setupEventListeners();
@@ -21,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('username').value = user.username;
         document.getElementById('email').value = user.email;
         document.getElementById('user-avatar').src = user.avatar;
+        document.getElementById('user-id').textContent = user.uid;
 
         // 设置练习统计数据
         document.getElementById('total-exercises').textContent = user.exercisesCount; // 注意这里修改了ID
@@ -33,13 +51,19 @@ document.addEventListener('DOMContentLoaded', function() {
         // 保存个人资料修改
         document.getElementById('save-profile').addEventListener('click', function() {
             const newUsername = document.getElementById('username').value;
-            const newBio = document.getElementById('bio').value;
+            const newEmail = document.getElementById('email').value;
 
-            // 更新显示
-            document.getElementById('username-display').textContent = newUsername;
-
-            // 显示成功消息
-            showNotification('个人资料已更新', 'success');
+            UrlUtils.post('user', 'update-profile', 'include', {
+                username: newUsername,
+                email: newEmail
+            }).then(res => {
+                if (res.status === 200) {
+                    alert('个人资料修改成功！');
+                    document.getElementById('display-name').textContent = newUsername;
+                } else {
+                    alert(res.message);
+                }
+            });
         });
 
         // 修改密码
@@ -59,9 +83,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // 模拟密码修改成功
-            document.getElementById('password-form').reset();
-            showNotification('密码已成功修改', 'success');
+            UrlUtils.post('user', 'update-password', 'include', {
+                password: newPassword
+            }).then(response => {
+                document.getElementById('password-form').reset();
+                if (response.status === 200) {
+                    showNotification('密码已成功修改', 'success');
+                } else {
+                    showNotification(response.message, 'error');
+                }
+            })
+
         });
 
         // 头像上传
@@ -70,8 +102,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 const reader = new FileReader();
 
                 reader.onload = function(e) {
-                    document.getElementById('user-avatar').src = e.target.result;
-                    showNotification('头像已更新', 'success');
+                    const image = new Image();
+                    image.onload = function () {
+                        const width = image.width;
+                        const height = image.height;
+
+                        if (width < 128 || height < 128 || width > 1024 || height > 1024) {
+                            alert("图片尺寸不符合要求");
+                            return;
+                        }
+
+                        UrlUtils.upload('user', 'upload-avatar', file, function (success, res) {
+                            if (success) {
+                                alert("上传成功");
+                            } else {
+                                alert("上传失败");
+                            }
+                        });
+                    }
+                    image.src = e.target.result;
                 }
 
                 reader.readAsDataURL(this.files[0]);

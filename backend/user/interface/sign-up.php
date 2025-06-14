@@ -1,7 +1,7 @@
 <?php
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap/backend' . '/interface.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap/backend' . '/general/Database.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap/backend' . '/user/AuthService.class.php';
 
 $response = [
     'success' => false,
@@ -24,5 +24,4 @@ try {
 }
 
 echo json_encode($response);
-
 ?>

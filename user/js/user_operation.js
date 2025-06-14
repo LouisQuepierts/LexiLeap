@@ -19,12 +19,22 @@ function sign_in() {
     UrlUtils.post('user', 'sign-in', 'include', {
         email: email,
         password: password
-    }).then(res => {
-        if (res.status === 200) {
-            window.location.href = '/user/index.html';
-        } else {
-            alert(res.message);
+    }).then(response => {
+        console.log(response);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
+
+        return response.json();
+    }).then(data => {
+        if (data.success)  {
+            window.location.href = 'lexileap/general/view/practice/index.html';
+        } else {
+            alert(data.message);
+        }
+    }).catch(err => {
+        console.error(err);
+        alert('Error occur');
     });
 }
 
@@ -63,6 +73,7 @@ function sign_up() {
     console.log(data);
 
     UrlUtils.post('user', 'sign-up', 'include', data).then(response => {
+        console.log(response);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -72,10 +83,30 @@ function sign_up() {
         if (data.success)  {
             window.location.href = './sign-in.html';
         } else {
-            alert('Sign up failed');
+            alert(data.message);
         }
     }).catch(err => {
         console.error(err);
-        alert('Sign up failed');
+        alert('Error occur');
     });
+}
+
+function sign_out() {
+    UrlUtils.get('user', 'sign-out').then(response => {
+        console.log(response);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        return response.json();
+    }).then(data => {
+        if (data.success)  {
+            window.location.href = './sign-in.html';
+        } else {
+            alert(data.message);
+        }
+    }).catch(err => {
+        console.error(err);
+        alert('Error occur');
+    })
 }

@@ -50,11 +50,12 @@ CREATE TABLE IF NOT EXISTS user (
     email VARCHAR(100) NOT NULL UNIQUE,
     username VARCHAR(100) NOT NULL,
     password VARCHAR(100) NOT NULL,
+    avatar  VARCHAR(255),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     deleted BOOLEAN DEFAULT FALSE
 );
 
-CREATE TABLE IF NOT EXISTS user_tokens {
+CREATE TABLE IF NOT EXISTS user_tokens (
     user_id INT PRIMARY KEY,
     token VARCHAR(64) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -62,7 +63,7 @@ CREATE TABLE IF NOT EXISTS user_tokens {
     version INT DEFAULT 1,
     UNIQUE KEY (token),
     FOREIGN KEY (user_id) REFERENCES user(id)
-}
+)
 
 CREATE TABLE IF NOT EXISTS word_set (
     id INT PRIMARY KEY AUTO_INCREMENT,  -- 自增主键，不再作为词集编号  

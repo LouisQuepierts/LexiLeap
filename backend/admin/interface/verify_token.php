@@ -8,10 +8,9 @@ $response = [
 ];
 
 try {
-    session_start();
-    
     if (!isset($_COOKIE['admin_token'])) {
-        throw new Exception('Did not login', 401);
+        header('localhost:lexileap/admin/login.php');
+        exit;
     }
     
     $response['valid'] = true;

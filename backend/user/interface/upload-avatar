@@ -8,14 +8,8 @@ $response = [
     'message' => ''
 ];
 
-try { 
-    AuthService::setSignedOut();
-    $response['success'] = true;
-    $response['message'] = 'Sign out successful';
-} catch (Exception $e) {
-    $response['message'] = $e->getMessage();
+try {
+    $auth = AuthService::isSignedIn();
 }
-
-return json_encode($response);
 
 ?>
