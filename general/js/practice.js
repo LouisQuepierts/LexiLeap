@@ -4,8 +4,8 @@ import {QuestionController, QuestionHistory} from "./exercise/QuestionController
 const url = "/LexiLeap/general/view/practice/"
 
 const question_types = [
-    // "spelling",
-    // "multiple-choice",
+    "spelling",
+    "multiple-choice",
     "matching",
 ]
 
