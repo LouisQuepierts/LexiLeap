@@ -1,7 +1,7 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap/backend' . '/interface.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap/backend' . '/user/AuthService.class.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/LexiLeap/backend' . '/user/UserDataService.class.php';
+require_once __DIR__ . '/../../settings.php';
+require_once __DIR__ . '/../AuthService.class.php';
+require_once __DIR__ . '/../UserDataService.class.php';
 
 $response = [
     'message' => '',
