@@ -34,6 +34,7 @@ export class UrlUtils {
         xhr.open("POST", UrlUtils.interface(module, interface0), true);
         xhr.withCredentials = true;
         xhr.onload = () => {
+            console.log(xhr.responseText);
             callback(true, JSON.parse(xhr.responseText));
         };
         xhr.onerror = () => {

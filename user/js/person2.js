@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     console.log(statistics);
 
-    if (userdata) {
+    if (!!userdata) {
+        console.log("person2: " + userdata)
         window.userdata = JSON.parse(userdata);
         // 模拟用户数据
         const userData = {
@@ -91,13 +92,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             UrlUtils.post('user', 'update-password', 'include', {
-                password: newPassword
+                oldPassword: currentPassword,
+                newPassword: newPassword
             }).then(response => {
                 document.getElementById('password-form').reset();
-                if (response.status === 200) {
-                    showNotification('密码已成功修改', 'success');
+                return response.json();
+            }).then(data => {
+                if (data.success) {
+                    showNotification('密码修改成功！', 'success');
                 } else {
-                    showNotification(response.message, 'error');
+                    showNotification('密码修改失败！', 'error');
                 }
             })
 
@@ -123,8 +127,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         UrlUtils.upload('user', 'upload-avatar', updateFile, function (success, res) {
                             if (success && res.success) {
                                 alert("上传成功");
-                                document.getElementById('user-avatar').src = res.url;
-                                window.userdata.avatar = res.url;
+                                const url = res.data.url;
+                                document.getElementById('user-avatar').src = url;
+                                window.userdata.avatar = url;
                                 sessionStorage.setItem('userdata', JSON.stringify(window.userdata));
                                 const event = new CustomEvent('userdata-loaded', { detail: window.userdata });
                                 window.dispatchEvent(event);

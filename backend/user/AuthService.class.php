@@ -118,7 +118,7 @@ class AuthService {
     public static function changePassword($id, $password) {
         $db = Database::getInstance();
         $query = $db->prepare('--sql
-        UPDATE users
+        UPDATE user
         SET password = :password
         WHERE id = :id
         ');

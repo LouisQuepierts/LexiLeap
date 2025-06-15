@@ -1,29 +1,15 @@
 <?php
-
-require_once __DIR__ . '/../../settings.php';
+require_once __DIR__ . '/../../interface.php';
 require_once __DIR__ . '/../AuthService.class.php';
 
-$response = [
-    'success' => false,
-    'message' => '',
-    'token' => ''
-];
-
-try {
-    $input = json_input();
-
+function _interface($input) {
     $email = $input['email'];
     $password = $input['password'];
 
+    if (empty($email) || empty($password)) {
+        throw new Exception('Invalid input value', 400);
+    }
+
     AuthService::signin($email, $password);
-    $response['success'] = true;
-    $response['message'] = 'Sign in successful';
-    $response['token'] = $_COOKIE['user_token'];
-
-}  catch (Exception $e) {
-    $response['message'] = $e->getMessage();
 }
-
-echo json_encode($response);
-
 ?>

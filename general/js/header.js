@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     avatar.classList.add("header-avatar");
 
     const userdata = sessionStorage.getItem("userdata");
-    window.userdata = userdata ? JSON.parse(userdata) : null;
+    window.userdata = userdata !== undefined ? JSON.parse(userdata) : null;
 
     avatar.src = window.userdata ? window.userdata.avatar : "/lexileap/backend/userdata/default/avatar.png";
     avatar.addEventListener("click", function(e) {

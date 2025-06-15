@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/../../../interface.php";
+require_once __DIR__ . "/../interface.php";
 
 $response = [
     'valid' => false,
@@ -8,9 +8,10 @@ $response = [
 ];
 
 try {
-    if (!isset($_COOKIE['admin_token'])) {
-        header('localhost:lexileap/admin/login.php');
-        exit;
+    $auth = AdminService::auth();
+
+    if (!$auth['success']) {
+        throw new Exception('Invalid token', 401);
     }
     
     $response['valid'] = true;

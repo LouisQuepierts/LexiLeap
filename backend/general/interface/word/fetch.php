@@ -3,17 +3,7 @@ require_once __DIR__ . '/../../../interface.php';
 require_once __DIR__ . '/../../WordService.class.php';
 require_once __DIR__ . '/../../TagService.class.php';
 
-$response  = [
-    'success' => false,
-    'message' => '',
-    'data' => [
-        'length' => 0,
-        'words' => []
-    ]
-];
-
-try {
-    $input = json_input();
+function _interface($input) {
     $offset = isset($input['offset']) ? intval($input['offset']) : 0;
     $limit = isset($input['limit']) ? intval($input['limit']) : 20;
 
@@ -21,11 +11,10 @@ try {
     $tagService = TagService::getInstance();
 
     $result = $wordService->fetch($offset, $limit);
-    $response['success'] = true;
-    $response['message'] = 'Fetch successful';
 
     $length = count($result);
-    $response['data']['length'] = $length;
+    $data = [];
+    $data['length'] = $length;
 
     for ($i = 0; $i < $length; $i++) { 
         $w = $result[$i];
@@ -42,7 +31,7 @@ try {
             ];
         }
 
-        $response['data']['words'][$i] = [
+        $data['words'][$i] = [
             'id' => (int) $w['id'],
             'spell' => $w['spell'],
             'definition_cn' => $w['definition_cn'],
@@ -51,10 +40,7 @@ try {
             'tags' => $tags
         ];
     }
-
-} catch (Exception $e) {
-    $response['message'] = $e->getMessage();
+    
+    return $data;
 }
-
-echo json_encode($response);
 ?>

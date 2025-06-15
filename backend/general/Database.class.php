@@ -53,6 +53,10 @@
         public function bindParam($name, $value, $type = null) {
             $this->query->bindParam($name, $value, $type);
         }
+        
+        public function bindValue($name, $value, $type = null) {
+            $this->query->bindValue($name, $value, $type);
+        }
 
         public function execute($params = null) {
             if (!$this->query->execute($params)) {
