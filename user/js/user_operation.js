@@ -28,7 +28,7 @@ function sign_in() {
         return response.json();
     }).then(data => {
         if (data.success)  {
-            window.location.href = 'lexileap/general/view/practice/index.html';
+            window.location.href = '/general/view/practice/index.html';
         } else {
             alert(data.message);
         }

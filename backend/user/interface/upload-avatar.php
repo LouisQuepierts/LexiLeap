@@ -21,7 +21,7 @@ try {
 
     // check file type
     if (!in_array($_FILES['file']['type'], $allowedTypes)) {
-        throw new Exception("Invalid file type___" . $_FILES['file']['type'], 400);
+        throw new Exception("Invalid file type " . $_FILES['file']['type'], 400);
     }
 
     // check file size

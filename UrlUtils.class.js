@@ -1,7 +1,9 @@
 export const URL = "http://localhost/lexileap/backend/";
 export const SUBFIX = ".php";
+export const ROOT = "/" + window.location.pathname.split('/')[1] + "/";
 
 export class UrlUtils {
+
     static interface(module, interface0) {
         return URL + module + "/interface/" + interface0 + SUBFIX;
     }
@@ -43,5 +45,9 @@ export class UrlUtils {
         } catch (e) {
             console.error(e);
         }
+    }
+
+    static redirect(module, page) {
+        window.location.href = ROOT + module + "/view/" + page;
     }
 }
