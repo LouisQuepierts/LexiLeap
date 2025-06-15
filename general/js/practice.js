@@ -1,5 +1,6 @@
 import { PageInjector } from "./PageInjector.class.js";
-import {QuestionController, QuestionHistory} from "./exercise/QuestionController.class.js";
+import {QuestionController} from "./exercise/QuestionController.class.js";
+import {Statistics} from "./Statistics.class.js";
 
 const url = "/LexiLeap/general/view/practice/"
 
@@ -17,7 +18,7 @@ const injector = new PageInjector(
     url,
     document
 );
-const history = new QuestionHistory(100);
+const history = Statistics.getInstance();
 let controllers = [];
 let future_question;
 

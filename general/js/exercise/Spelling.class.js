@@ -121,18 +121,21 @@ class Spelling extends QuestionController {
         const data = this.questionData.data;
         const word = this.questionData.word;
         let result = [];
+        let correct = 0;
         for (let i = data.left; i <= data.right; i++) {
             const letter = wordElement.children[i];
             result.push(letter.innerHTML);
             letter.classList.remove('hover');
             if (word.spell[i] === letter.innerHTML) {
                 letter.classList.add('success');
+                correct ++;
             } else {
                 letter.classList.add('failed');
             }
             letter.innerHTML = word.spell[i];
         }
         this.questionData.result = result;
+        this.questionData.accuracy = (correct / data.width) * 100;
     }
 
     typeIn(input) {

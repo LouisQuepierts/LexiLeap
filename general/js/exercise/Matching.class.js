@@ -147,6 +147,9 @@ class Matching extends QuestionController {
             missed: this.missedAmount,
         }
 
+        const totalTry = this.matchedAmount + this.missedAmount;
+        this.questionData.accuracy = Math.round(this.matchedAmount / totalTry * 100);
+
         this.onSubmit(this.questionData);
     }
 

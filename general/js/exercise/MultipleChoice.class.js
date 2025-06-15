@@ -69,12 +69,14 @@ export class MultipleChoice extends QuestionController {
 
         this.questionData.checked = true;
         const rightAnswer = this.questionData.data.answer;
+        const correct = answer === rightAnswer;
 
-        if (answer !== rightAnswer) {
+        if (correct) {
+            answersElement.children[answer].classList.add("correct");
+        } else {
             answersElement.children[answer].classList.add("incorrect");
             answersElement.children[rightAnswer].classList.add("correct");
-        } else {
-            answersElement.children[answer].classList.add("correct");
+            this.questionData.accuracy = 0;
         }
 
         for (let i = 0; i < ANSWER_COUNT; i++) {
@@ -82,7 +84,8 @@ export class MultipleChoice extends QuestionController {
             answersElement.children[i].classList.add("blocked");
         }
 
-        this.questionData.result = answer === rightAnswer;
+
+        this.questionData.result = correct;
     }
 
     onKeyDown(e) {

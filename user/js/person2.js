@@ -1,7 +1,12 @@
 import {UrlUtils} from "../../UrlUtils.class.js";
+import {Statistics} from "../../general/js/Statistics.class.js";
 
 document.addEventListener('DOMContentLoaded', function() {
     const userdata = sessionStorage.getItem('userdata');
+    const statistics = Statistics.getInstance();
+
+    console.log(statistics);
+
     if (userdata) {
         window.userdata = JSON.parse(userdata);
         // 模拟用户数据
@@ -10,8 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
             id: window.userdata.uid,
             email: window.userdata.email,
             avatar: window.userdata.avatar,
-            exercisesCount: 56,
-            accuracyRate: 82
+            exercisesCount: statistics.exercisesCount,
+            accuracyRate: statistics.totalAccuracy
         };
 
         initializeUserData(userData);
@@ -22,8 +27,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 email: event.detail.email,
                 uid: event.detail.uid,
                 avatar: event.detail.avatar,
-                exercisesCount: 56,
-                accuracyRate: 82
+                exercisesCount: statistics.exercisesCount,
+                accuracyRate: statistics.totalAccuracy
             };
             initializeUserData(userData);
         })

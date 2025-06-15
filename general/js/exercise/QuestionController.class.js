@@ -55,36 +55,12 @@ export class QuestionController extends Controller {
     }
 }
 
-export class QuestionHistory {
-    capacity;
-    pointer = 0;
-    constructor(capacity = 100) {
-        this.history = [];
-        this.capacity = capacity;
-    }
-
-    push(data) {
-        if (this.history.length === this.capacity) {
-            this.history[this.pointer] = data;
-        } else {
-            this.history.push(data);
-        }
-        this.pointer = (this.pointer + 1) % this.capacity;
-    }
-
-    peek(shift = 0) {
-        if (this.history.length === 0 || shift >= this.history.length) {
-            return null;
-        }
-        return this.history[(this.pointer - shift - 1 + this.capacity) % this.capacity];
-    }
-}
-
 export class QuestionData {
     type;
     word;
     data;
     result;
+    accuracy = 100;
     checked = false;
 
     constructor(type, word, data) {
