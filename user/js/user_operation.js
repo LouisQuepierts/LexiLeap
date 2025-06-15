@@ -28,7 +28,7 @@ function sign_in() {
         return response.json();
     }).then(data => {
         if (data.success)  {
-            window.location.href = '/general/view/practice/index.html';
+            UrlUtils.redirect('general', 'practice/index.html');
         } else {
             alert(data.message);
         }
@@ -36,6 +36,10 @@ function sign_in() {
         console.error(err);
         alert('Error occur');
     });
+}
+
+function to_sign_up() {
+    UrlUtils.redirect('user', 'sign-up.html');
 }
 
 function sign_up() {
@@ -81,7 +85,7 @@ function sign_up() {
         return response.json();
     }).then(data => {
         if (data.success)  {
-            window.location.href = './sign-in.html';
+            UrlUtils.redirect('user', 'sign-in.html');
         } else {
             alert(data.message);
         }
@@ -101,7 +105,7 @@ function sign_out() {
         return response.json();
     }).then(data => {
         if (data.success)  {
-            window.location.href = './sign-in.html';
+            UrlUtils.redirect('user', 'sign-in.html');
         } else {
             alert(data.message);
         }
