@@ -1,5 +1,5 @@
 import {QuestionController, QuestionData} from "./QuestionController.class.js";
-import {WordsClass} from "../Words.class.js";
+import {Words} from "../Words.js";
 
 const TYPE_MULTIPLE_CHOICE = "multiple-choice"
 const ANSWER_COUNT = 4;
@@ -35,7 +35,7 @@ export class MultipleChoice extends QuestionController {
 
     async setQuestion(question) {
         await super.setQuestion(question);
-        const disturbance = await WordsClass.random(ANSWER_COUNT - 1);
+        const disturbance = await Words.random(ANSWER_COUNT - 1);
         const answer = Math.floor(Math.random() * ANSWER_COUNT);
 
         let j = 0;

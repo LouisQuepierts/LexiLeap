@@ -8,13 +8,14 @@ export class Word {
     example_sentence;
 }
 
-export class WordsClass {
+export class Words {
     static localWords;
     static sequence = [];
     static pointer = 0;
+    static _fetchPromise = null;
 
     static async random(n = 1) {
-        await WordsClass.get();
+        await Words.get();
 
         if (n === 0) {
             return this.localWords[0];
@@ -30,8 +31,8 @@ export class WordsClass {
     }
 
     static async random_no_dup(amount, last = null) {
-        await WordsClass.get();
-        const words = WordsClass.localWords;
+        await Words.get();
+        const words = Words.localWords;
         let i = [];
         if (last) {
 
@@ -51,25 +52,36 @@ export class WordsClass {
     }
 
     static async get() {
-        if (WordsClass.localWords) {
-            return WordsClass.localWords;
+        if (Words.localWords) {
+            return Words.localWords;
         }
 
         let wordStorage = sessionStorage.getItem('localWords');
-        if (wordStorage !== null && wordStorage !== undefined && wordStorage) {
-            WordsClass.localWords = JSON.parse(wordStorage);
-            console.log('get from sessionStorage');
-            console.log(WordsClass.localWords);
-            this._gen_sequence(0, WordsClass.localWords.length - 1);
-            return WordsClass.localWords;
-        } else {
-            const words = await WordsClass.fetch();
-            console.log(words);
-            WordsClass.localWords = words;
-            sessionStorage.setItem('localWords', JSON.stringify(words));
-            this._gen_sequence(0, WordsClass.localWords.length - 1);
-            return WordsClass.localWords;
+        if (wordStorage) {
+            Words.localWords = JSON.parse(wordStorage);
+            this._gen_sequence(0, Words.localWords.length - 1);
+            return Words.localWords;
         }
+
+        // 如果已经有正在进行的 fetch，直接返回同一个 Promise
+        if (Words._fetchPromise) {
+            return Words._fetchPromise;
+        }
+
+        // 创建新的 fetch Promise 并缓存
+        Words._fetchPromise = Words.fetch()
+            .then(words => {
+                Words.localWords = words;
+                sessionStorage.setItem('localWords', JSON.stringify(words));
+                Words._gen_sequence(0, words.length - 1);
+                return words;
+            })
+            .catch(error => {
+                Words._fetchPromise = null; // 清除缓存以便下次重试
+                throw error;
+            });
+
+        return Words._fetchPromise;
     }
 
     static async fetch() {
