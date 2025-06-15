@@ -9,11 +9,11 @@ async function _auth() {
         }
 
         const data = await response.json();
-        window.userdata = data.userdata;
+        sessionStorage.setItem("userdata", JSON.stringify(data.userdata));
         console.log(data.userdata)
 
         // 触发用户数据加载完成事件
-        const event = new CustomEvent('userdata-loaded', { detail: window.userdata });
+        const event = new CustomEvent('userdata-loaded', { detail: data.userdata });
         window.dispatchEvent(event);
 
     } catch (e) {

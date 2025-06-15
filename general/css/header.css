@@ -49,19 +49,34 @@
     gap: 1.2rem;
 }
 
+.header-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 2.5rem;
+    object-fit: cover;
+    margin-left: 1.2rem;
+
+    cursor: pointer;
+    transition: box-shadow 0.5s;
+}
+
+.header-avatar:hover {
+    box-shadow: 0 0 0 3px #e1ddd0;
+}
+
 .nav-link{
     color: #2a2a2a;
     background-color: #eceae200;
     text-decoration: none;
     transition: background-color 0.5s;
-    padding: 0.3rem 1.2rem;
+    padding: 0.5rem 1.2rem;
     border-radius: 40px;
     font-size: 1rem;
     font-family: Arial sans-serif;
 }
 
 .nav-link:hover {
-    background-color: #eceae2ff;
+    background-color: #fffdf5;
 }
 
 .nav-link.active{

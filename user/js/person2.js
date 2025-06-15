@@ -1,7 +1,9 @@
 import {UrlUtils} from "../../UrlUtils.class.js";
 
 document.addEventListener('DOMContentLoaded', function() {
-    if (window.userdata) {
+    const userdata = sessionStorage.getItem('userdata');
+    if (userdata) {
+        window.userdata = JSON.parse(userdata);
         // 模拟用户数据
         const userData = {
             username: window.userdata.username,
@@ -117,6 +119,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             if (success && res.success) {
                                 alert("上传成功");
                                 document.getElementById('user-avatar').src = res.url;
+                                window.userdata.avatar = res.url;
+                                sessionStorage.setItem('userdata', JSON.stringify(window.userdata));
+                                const event = new CustomEvent('userdata-loaded', { detail: window.userdata });
+                                window.dispatchEvent(event);
                             } else {
                                 alert("上传失败");
                             }
