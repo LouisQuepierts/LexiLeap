@@ -30,15 +30,6 @@ export class Words {
         return word;
     }
 
-    static async random_no_dup(amount, last = null) {
-        await Words.get();
-        const words = Words.localWords;
-        let i = [];
-        if (last) {
-
-        }
-    }
-
     static _gen_sequence(min, max) {
         const length = max - min + 1;
         const arr = Array.from({ length: length }, (_, index) => index + min);
