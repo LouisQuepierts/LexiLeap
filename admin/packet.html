@@ -39,7 +39,7 @@
 </body>
 <footer>
     <script type="module">
-        import { _interface } from "../UrlUtils.class.js";
+        import { UrlUtils } from "../UrlUtils.class.js";
 
         const packetForm = document.getElementById('packet-form');
         const moduleInput = document.getElementById('module');
@@ -55,7 +55,7 @@
             const intf = interfaceInput.value;
             const data = dataInput.value;
 
-            fetch(_interface(module, intf), {
+            fetch(UrlUtils(module, intf), {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded"
