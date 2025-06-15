@@ -4,8 +4,7 @@ async function _auth() {
     try {
         const response = await UrlUtils.post("user", "verify-login", "include");
         if (response.status === 401) {
-            window.location.href = "/lexileap/user/view/sign-in.html";
-            console.log(response)
+            UrlUtils.redirect("user", "sign-in.html");
             return;
         }
 
