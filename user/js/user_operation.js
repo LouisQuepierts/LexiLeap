@@ -2,16 +2,17 @@ import { UrlUtils } from "../../UrlUtils.class.js";
 
 window.sign_in = sign_in;
 window.sign_up = sign_up;
+window.to_sign_up = to_sign_up;
 
-const REGNX_EMAIL = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-const REGNX_USERNAME = /^[a-zA-Z0-9_-]{3,16}$/;
-const REGNX_PASSWORD = /^[a-zA-Z0-9_-]{6,16}$/;
+const REGEX_EMAIL = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+const REGEX_USERNAME = /^[\u4E00-\u9FA5A-Za-z0-9_]{2,20}$/;
+const REGEX_PASSWORD = /^[a-zA-Z\w]{6,20}$/;
 
 function sign_in() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
-    if (!REGNX_EMAIL.test(email)) {
+    if (!REGEX_EMAIL.test(email)) {
         alert('Invalid email');
         return;
     }
@@ -48,17 +49,17 @@ function sign_up() {
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
 
-    if (!REGNX_EMAIL.test(email)) {
+    if (!REGEX_EMAIL.test(email)) {
         alert('Invalid email');
         return;
     }
 
-    if (!REGNX_USERNAME.test(username)) {
+    if (!REGEX_USERNAME.test(username)) {
         alert('Invalid username');
         return;
     }
 
-    if (!REGNX_PASSWORD.test(password)) {
+    if (!REGEX_PASSWORD.test(password)) {
         alert('Invalid password');
         return;
     }

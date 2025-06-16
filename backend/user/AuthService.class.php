@@ -4,7 +4,7 @@ require_once __DIR__ . '/../general/Database.class.php';
 
 class AuthService {
     public const REGEX_EMAIL = "/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/";
-    public const REGEX_USERNAME = '/^[a-zA-Z0-9_.+-]+$/';
+    public const REGEX_USERNAME = '/^[\u4E00-\u9FA5A-Za-z0-9_]{2,20}$/';
     public const REGEX_PASSWORD = '/^[a-zA-Z\w]{6,20}$/';
 
     public static function isSignedIn()  {
