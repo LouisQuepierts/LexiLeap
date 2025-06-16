@@ -1,0 +1,26 @@
+[
+  {
+    "spell": "fantastic",
+    "definition_cn": "极好的；了不起的；不现实的",
+    "definition_en": "extremely good; excellent; imaginary; not real",
+    "example_sentence": "We watched a fantastic play yesterday."
+  },
+  {
+    "spell": "gorgeous",
+    "definition_cn": "美丽动人的；绚丽的；极好的",
+    "definition_en": "very beautiful and attractive; delightful",
+    "example_sentence": "She looked gorgeous in her wedding dress."
+  },
+  {
+    "spell": "brilliant",
+    "definition_cn": "巧妙的；聪颖的；很成功的",
+    "definition_en": "very clever or impressive; very successful",
+    "example_sentence": "He came up with a brilliant idea to solve the problem."
+  },
+  {
+    "spell": "extraordinary",
+    "definition_cn": "非凡的；特别的；离奇的",
+    "definition_en": "unusual and surprising; remarkable; very strange",
+    "example_sentence": "His extraordinary talent in music amazed everyone."
+  }
+]

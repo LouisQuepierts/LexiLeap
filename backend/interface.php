@@ -1,8 +1,9 @@
 <?php
 require_once 'settings.php';
 
-if (_DEV_) {
+if (defined('_DEV_')) {
     header("Access-Control-Allow-Origin: http://localhost:63342");
+    ini_set('display_startup_errors', 1);
 }
 
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
@@ -15,6 +16,10 @@ function json_input() {
 }
 
 register_shutdown_function(function () {
+    if (defined('_DEBUG_')) {
+        return;
+    }
+
     $response = [
         "success" => false,
         "message" => 'Unknown error',
@@ -32,18 +37,13 @@ register_shutdown_function(function () {
     }
 
     try {
-        $input = [];
+        $input = json_input();
 
         if (function_exists('_verify')) {
-            $tmp = _verify();
+            $tmp = _verify($input);
             if (is_array($tmp)) {
                 $input = array_merge($input, $tmp);
             }
-        }
-
-        $tmp = json_input();
-        if (is_array($tmp)) {
-            $input = array_merge($input, $tmp);
         }
 
         if (function_exists('_interface')) {

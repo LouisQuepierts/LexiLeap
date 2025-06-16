@@ -1,5 +1,6 @@
 // 模拟数据 - 在实际应用中，这部分应该从API获取
 import {Words} from "../../general/js/Words.js";
+import {AdminWordOperation} from "./AdminWordOperation.class.js";
 
 let mockWords;
 
@@ -19,6 +20,10 @@ const selectAllCheckbox = document.getElementById('select-all');
 const notification = document.getElementById('notification');
 const notificationMessage = document.getElementById('notification-message');
 const notificationIcon = document.getElementById('notification-icon');
+
+// 新增：分页相关变量
+let currentPage = 1;
+const pageSize = 20; // 每页显示的单词数量
 
 // 渲染单词列表
 function renderWordList(words) {
@@ -62,6 +67,58 @@ function renderWordList(words) {
     // 添加事件监听器
     setupEventListeners();
 }
+
+// 新增：渲染分页按钮
+function renderPagination(totalPages) {
+    const paginationContainer = document.querySelector('.pagination-container');
+    if (!paginationContainer) {
+        console.error('分页容器未找到，请检查HTML结构');
+        return;
+    }
+
+    paginationContainer.innerHTML = ''; // 清空现有分页按钮
+
+    for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement('button');
+        button.textContent = i;
+        button.classList.add('page-btn');
+        if (i === currentPage) {
+            button.classList.add('active'); // 当前页高亮
+        }
+        button.addEventListener('click', () => {
+            currentPage = i;
+            loadWords(); // 切换页面时重新加载数据
+        });
+        paginationContainer.appendChild(button);
+    }
+}
+
+// 新增：加载单词数据并支持分页
+function loadWords() {
+    
+    // 获取总词数
+    AdminWordOperation.count()
+        .then(totalWords => {
+            // 计算总页数
+            const totalPages = Math.ceil(totalWords / pageSize);
+            const page = Math.min(totalPages, currentPage);
+            const offset = (page - 1) * pageSize;
+            
+            // 渲染分页按钮
+            renderPagination(totalPages);
+
+            // 动态获取指定页的数据
+            AdminWordOperation.fetch(offset, pageSize, (data) => {
+                mockWords = data.words;
+                renderWordList(mockWords);
+            });
+        })
+        .catch(error => {
+            console.error("获取总词数失败:", error);
+            showNotification('获取总词数失败', 'error');
+        });
+}
+
 //导入文件
 document.getElementById('import-btn').addEventListener('click', () => {
     // 触发隐藏的文件输入框
@@ -80,12 +137,10 @@ document.getElementById('file-input').addEventListener('change', (event) => {
     const reader = new FileReader();
 
     reader.onload = (e) => {
-        const content = e.target.result;
-        // 处理文件内容（示例：按行分割）
-        const lines = content.split('\n').filter(line => line.trim());
-
-        // 调用你的单词处理函数
-        processImportedWords(lines);
+        const words = JSON.parse(e.target.result);
+        AdminWordOperation.upload(words, () => {
+            loadWords();
+        });
 
         // 重置文件输入，允许重复选择同一文件
         event.target.value = '';
@@ -98,17 +153,6 @@ document.getElementById('file-input').addEventListener('change', (event) => {
     reader.readAsText(file);
 });
 
-// 示例处理函数（需根据你的实际需求实现）
-function processImportedWords(wordLines) {
-    console.log('导入的单词数据：', wordLines);
-    // 这里添加你的业务逻辑，比如：
-    // 1. 解析每行数据
-    // 2. 验证格式
-    // 3. 添加到单词列表
-    // 4. 显示成功提示
-
-    alert(`成功导入 ${wordLines.length} 个单词`);
-}
 // 设置事件监听器
 function setupEventListeners() {
     // 编辑按钮点击事件
@@ -116,14 +160,13 @@ function setupEventListeners() {
         btn.addEventListener('click', (e) => {
             const id = parseInt(e.currentTarget.dataset.id);
             const word = mockWords.find(w => w.id === id);
+            console.log(mockWords)
 
             if (word) {
                 openEditCard(word);
             }
         });
     });
-
-
 
     // 单词复选框点击事件
     document.querySelectorAll('.word-checkbox').forEach(checkbox => {
@@ -164,9 +207,13 @@ deleteSelectedBtn.addEventListener('click', () => {
         // 确认删除
         if (confirm(`确定要删除选中的 ${checkedIds.length} 个单词吗？`)) {
             // 从模拟数据中删除
-            mockWords = mockWords.filter(word => !checkedIds.includes(word.id));
+            // const selected = mockWords.filter(word => !checkedIds.includes(word.id));
+            console.log(checkedIds);
+            AdminWordOperation.delete(checkedIds, () => {
+                loadWords();
+            });
             // 重新渲染列表
-            renderWordList(mockWords);
+            // renderWordList(mockWords);
             // 显示成功通知
             showNotification('删除成功', 'success');
         }
@@ -175,6 +222,7 @@ deleteSelectedBtn.addEventListener('click', () => {
 
 // 打开编辑卡片
 function openEditCard(word) {
+    console.log(word);
     editId.value = word.id;
     editWord.value = word.spell;
     editChineseDef.value = word.definition_cn;
@@ -201,30 +249,25 @@ editForm.addEventListener('submit', (e) => {
 
     const id = parseInt(editId.value);
     const updatedWord = {
-        id,
+        id: id,
         spell: editWord.value.trim(),
         definition_cn: editChineseDef.value.trim(),
         definition_en: editEnglishDef.value.trim(),
         example_sentence: editExample.value.trim()
     };
 
-    // 验证输入
-    if (!updatedWord.spell) {
-        showNotification('英文单词不能为空', 'error');
+    console.log(updatedWord)
+
+    if (updatedWord.spell === '') {
+        alert('请输入单词');
         return;
     }
 
-    // 更新单词
-    const index = mockWords.findIndex(word => word.id === id);
-    if (index !== -1) {
-        mockWords[index] = updatedWord;
-        // 重新渲染列表
-        renderWordList(mockWords);
-        // 关闭编辑卡片
-        closeEditCardModal();
-        // 显示成功通知
-        showNotification('保存成功', 'success');
-    }
+    closeEditCardModal();
+    AdminWordOperation.update(id, updatedWord.spell, updatedWord.definition_cn, updatedWord.definition_en, updatedWord.example_sentence, () => {
+        loadWords();
+        showNotification('更新成功', 'success');
+    });
 });
 
 // 显示通知
@@ -252,12 +295,8 @@ function showNotification(message, type = 'success') {
     }, 3000);
 }
 
-
-
 // 初始化页面
 document.addEventListener('DOMContentLoaded', () => {
-    Words.get().then(words => {
-        mockWords = words;
-        renderWordList(mockWords)
-    })
+    // 使用分页加载数据
+    loadWords();
 });

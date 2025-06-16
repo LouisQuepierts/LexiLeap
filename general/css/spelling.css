@@ -25,13 +25,13 @@
     justify-content: center;
 }
 
+.shake {
+    animation: shake infinite 0.25s;
+}
+
 letter {
     color: #808080;
     transition: color 0.25s ease-out;
-}
-
-letter.hint {
-    color: #202020;
 }
 
 /* 成功状态（绿色） */
@@ -44,10 +44,24 @@ letter.failed {
     color: #ef4444; /* 红色 */
 }
 
-/* 悬停状态（橙色） */
-letter.hover {
-    color: #f97316;
-    animation: block-blink 1s infinite;
+letter.checked {
+    animation: checked 1.0s ease-out;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-5px); }
+    40% { transform: translateX(5px); }
+    60% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes checked {
+    0% { text-shadow: none }
+    25%  { text-shadow: 0 0 10px #7dffae; }
+    75%  { text-shadow: 0 0 10px #7dffae; }
+    100% { text-shadow: none; }
 }
 
 /* 中文释义样式 */

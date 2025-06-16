@@ -432,3 +432,39 @@ label {
 #notification-message {
     font-size: 14px;
 }
+
+.pagination-container {
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    bottom: 10px;
+    background-color: var(--secondary); /* 当前页按钮高亮 */
+    box-shadow: 0 0 5px;
+    padding: 0.5rem;
+    border-radius: 2rem
+}
+
+.page-btn {
+    width: 30px; /* 设置固定宽度 */
+    height: 30px; /* 设置固定高度 */
+    margin: 0 5px; /* 添加间距 */
+    border: none;
+    background-color: var(--secondary);
+    color: var(--text);
+    font-size: 14px;
+    border-radius: 50%; /* 圆形按钮 */
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex; /* 使用 Flexbox 布局 */
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+}
+
+.page-btn:hover {
+    background-color: var(--gray-50);
+}
+
+.page-btn.active {
+    background-color: var(--primary); /* 当前页按钮高亮 */
+    color: var(--dark);
+}

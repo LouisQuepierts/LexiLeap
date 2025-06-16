@@ -1,4 +1,4 @@
-.user-form {
+.login-form {
     background-color: #ffffffff;
     padding: 2rem 6rem;
 
@@ -34,22 +34,18 @@ label {
     font-size: 20px;
     font-family: Consolas, monospace;
     font-weight: bold;
-    border: 2px solid #424242;
-    border-radius: 8px;
+    border: 2px solid #9f9f9f;
+    border-radius: 16px;
 
     margin-top: 4px;
     padding: 0.5rem 1rem;
 
-    transition: 0.2s ease;
-}
-
-.form-input:hover {
-    border: 2px solid #7e430d;
+    transition: 0.1s ease-out;
 }
 
 .form-input:focus {
-    outline: none;
-    border: 2px solid #f97316;
+    border: 2px solid #7cc87c;
+    outline: #7cc87c solid 4px;
 }
 
 .submit {
@@ -59,10 +55,11 @@ label {
 
     color: #404040;
     background-color: #ffffff;
-    border: 2px solid #424242;
-    border-radius: 8px;
+    border: 2px solid #9f9f9f;
+    border-radius: 16px;
     padding: 0.5rem 1rem;
-    margin: 1rem 0;
+    margin-top: 1rem;
+    margin-bottom: -0.5rem;
 
     transition: 0.2s ease;
 }
