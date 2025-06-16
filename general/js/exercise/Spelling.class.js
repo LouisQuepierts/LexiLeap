@@ -9,14 +9,12 @@ const pointer = document.getElementById('spelling-cursor');
 
 const TYPE_SPELLING = 'spelling';
 
-class SpellData {
-    left;
-    right;
+class SpillingData {
     width;
+    tries = 0;
+    mistaken = 0;
 
-    constructor(left, right, width) {
-        this.left = left;
-        this.right = right;
+    constructor(width) {
         this.width = width;
     }
 }
@@ -28,20 +26,6 @@ class Spelling extends QuestionController {
         super(TYPE_SPELLING);
     }
 
-    review(question) {
-        if (question.type !== TYPE_SPELLING) {
-            return;
-        }
-
-        pointer.classList.add('checked');
-        const data = this.questionData.data;
-        for (let i = data.left; i <= data.right; i++) {
-            wordElement.children[i].classList.remove('hover');
-            wordElement.children[i].innerHTML = this.questionData.data.spell[i];
-            wordElement.children[i].classList.add('success');
-        }
-    }
-
     async setQuestion(question) {
         await super.setQuestion(question);
         pointer.classList.remove('checked');
@@ -50,34 +34,27 @@ class Spelling extends QuestionController {
         wordElement.innerHTML = ``;
 
         const length = question.spell.length;
-        const edge = Math.max(length / 3, 1);
-        const left = Math.floor(Math.random() * edge);
-        const right = length - Math.floor(Math.random() * edge) - 1;
-        const width = right - left;
         this.cursor = 0;
 
         this.questionData = new QuestionData(
             TYPE_SPELLING,
             question,
-            new SpellData(left, right, width)
+            new SpillingData(length)
         );
 
-        Object.freeze(this.questionData.data);
         this.updateCursor();
 
         for (let i = 0; i < length; i++) {
-            if (i < left || i > right) {
-                wordElement.innerHTML  += `<letter class="hint">` + question.spell[i] + `</letter>`
-            } else {
-                wordElement.innerHTML += `<letter>_</letter>`
-            }
+            const letter = document.createElement('letter');
+            letter.innerHTML = question.spell[i];
+            wordElement.appendChild( letter);
         }
 
         QuestionController.setTag(tagsElement, question.tags);
     }
 
     onKeyDown(e) {
-        if (!this.enabled()) {
+        if (!this.enable) {
             return;
         }
 
@@ -92,17 +69,6 @@ class Spelling extends QuestionController {
             case 'Enter':
                 this.submit();
                 break;
-            case 'ArrowLeft':
-                this.cursor--;
-                this.updateCursor();
-                break;
-            case 'ArrowRight':
-                this.cursor++;
-                this.updateCursor();
-                break;
-            case 'Backspace':
-                this.erase();
-                break;
             default:
                 if (regx.test(e.key)) {
                     this.typeIn(e.key);
@@ -113,58 +79,60 @@ class Spelling extends QuestionController {
     submit() {
         if (this.questionData.checked) {
             this.onSubmit(this.questionData);
-            return;
         }
-
-        this.questionData.checked = true;
-        pointer.classList.add('checked');
-        const data = this.questionData.data;
-        const word = this.questionData.word;
-        let result = [];
-        let correct = 0;
-        for (let i = data.left; i <= data.right; i++) {
-            const letter = wordElement.children[i];
-            result.push(letter.innerHTML);
-            letter.classList.remove('hover');
-            if (word.spell[i] === letter.innerHTML) {
-                letter.classList.add('success');
-                correct ++;
-            } else {
-                letter.classList.add('failed');
-            }
-            letter.innerHTML = word.spell[i];
-        }
-        this.questionData.result = result;
-        this.questionData.accuracy = (correct / data.width) * 100;
     }
 
     typeIn(input) {
-        const position = this.questionData.data.left + this.cursor;
+        const position = this.cursor;
         this.cursor++;
         this.updateCursor(this.cursor);
-        if (position > this.right) {
-            return
+        const data = this.questionData.data;
+        if (position >= data.width) {
+            return;
         }
         const letter = wordElement.children[position];
-        letter.innerHTML = input;
-    }
+        if (this.questionData.word.spell[ position] === input) {
+            letter.classList.add('success');
 
-    erase() {
-        this.cursor--;
+            if (position === data.width - 1) {
+                for (const letter of wordElement.children) {
+                    letter.classList.add('checked');
+                }
 
-        const data = this.questionData.data;
-        const position = this.cursor + data.left;
-        if (position >= data.left && position <= data.right) {
-            wordElement.children[position].innerHTML = '_';
+                data.tries ++;
+                this.questionData.checked = true;
+                this.questionData.accuracy = Math.round(data.mistaken / data.tries * 100);
+                pointer.classList.add('checked');
+            }
+
+        } else {
+            data.tries ++;
+            data.mistaken ++;
+
+            letter.classList.add('failed');
+            wordElement.classList.add('shake');
+
+            this.enable = false;
+            setTimeout(() => {
+                for (const letter of wordElement.children) {
+                    letter.classList.remove('failed', 'success');
+                }
+                wordElement.classList.remove('shake');
+                this.cursor = 0;
+                this.updateCursor();
+            }, 500);
+
+            setTimeout(() => {
+                this.enable = true;
+            }, 1000);
         }
-        this.updateCursor();
     }
 
     updateCursor() {
         const data = this.questionData.data;
-        this.cursor = clamp(this.cursor, 0, data.width + 1);
+        this.cursor = clamp(this.cursor, 0, data.width);
 
-        const position = this.cursor + data.left;
+        const position = this.cursor;
         pointer.style.transform  = `translateX(${position * 26.5}px)`;
     }
 }

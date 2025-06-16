@@ -6,6 +6,7 @@ const url = "/LexiLeap/general/view/practice/"
 
 const question_types = [
     "spelling",
+    "dictating",
     "multiple-choice",
     "matching",
 ]

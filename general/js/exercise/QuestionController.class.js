@@ -31,10 +31,6 @@ export class QuestionController extends Controller {
         }
     }
 
-    review(question) {
-        throw new Error('Method not implemented.');
-    }
-
     async setQuestion(question) {
         this.questionWord = question;
     }
