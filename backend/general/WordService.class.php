@@ -11,6 +11,15 @@ class WordService {
         return Database::getInstance()->query($query)->fetchAll();
     }
 
+    public static function count() {
+        $query = sql("--sql
+            SELECT COUNT(id) AS count
+            FROM word 
+            WHERE deleted = 0
+        ");
+        return Database::getInstance()->query($query)->fetchColumn();
+    }
+
     public static function add($word, $definition_cn, $definition_en, $example_sentence) : void {
         $query = Database::getInstance()->prepare("--sql
             INSERT INTO word (spell, definition_cn, definition_en, example_sentence)
@@ -20,6 +29,20 @@ class WordService {
         $query->bindParam(":definition_cn", $definition_cn, PDO::PARAM_STR);
         $query->bindParam(":definition_en", $definition_en, PDO::PARAM_STR);
         $query->bindParam(":example_sentence", $example_sentence, PDO::PARAM_STR);
+        $query->execute();
+    }
+
+    public static function update($id, $word, $definition_cn, $definition_en, $example_sentence) : void {
+        $query = Database::getInstance()->prepare("--sql
+            UPDATE word
+            SET spell = :spell, definition_cn = :definition_cn, definition_en = :definition_en, example_sentence = :example_sentence
+            WHERE id = :id
+        ");
+        $query->bindParam(':id', $id, PDO::PARAM_INT);
+        $query->bindParam(':spell', $word, PDO::PARAM_STR);
+        $query->bindParam(':definition_cn', $definition_cn, PDO::PARAM_STR);
+        $query->bindParam(':definition_en', $definition_en, PDO::PARAM_STR);
+        $query->bindParam(':example_sentence', $example_sentence, PDO::PARAM_STR);
         $query->execute();
     }
 
@@ -41,6 +64,15 @@ class WordService {
             WHERE spell = :word
         ");
         $query->bindParam(':word', $word, PDO::PARAM_STR);
+        $query->execute();
+    }
+
+    public static function delete_arr($ids) : void {
+        $query = Database::getInstance()->prepare('--sql
+            UPDATE word
+            SET deleted = 1
+            WHERE id IN ('.implode(',', $ids).')
+        ');
         $query->execute();
     }
 
