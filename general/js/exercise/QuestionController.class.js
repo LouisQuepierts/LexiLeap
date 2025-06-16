@@ -15,7 +15,10 @@ export class QuestionController extends Controller {
         window.child_controller[type] = this;
 
         if (!window.use_inject) {
-            document.addEventListener('keydown', this.onKeyDown);
+            document.addEventListener('keydown', e => {
+                this.onKeyDown(e);
+            });
+            this.next().then(() => {});
         }
     }
 
@@ -24,7 +27,7 @@ export class QuestionController extends Controller {
     }
 
     onSubmit(question) {
-        if (this.submitCallback !== null) {
+        if (!!this.submitCallback) {
             this.submitCallback(this, question);
         } else {
             this.next().then(() => {});
