@@ -8,7 +8,7 @@ class AdminService {
 
     public static function login( $username, $password ) {
         $user = self::$admin_users[$username];
-        return password_verify($password, PASSWORD_DEFAULT);
+        return password_verify($password, $user);
     }
 
     public static function generateToken($username) {
@@ -47,7 +47,7 @@ class AdminService {
         $username = $token[0];
         $timestamp = $token[1];
 
-        if (time() - $timestamp > 3600 * 24 * 7) {
+        if (time() - $timestamp > 1000 * 60 * 60) {
             return [ 'success' => false ];
         }
 

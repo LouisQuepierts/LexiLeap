@@ -1,6 +1,31 @@
 <?php
-require_once __DIR__ . "/../../interface.php";
+require_once __DIR__ . "/../../admin_interface.php";
 require_once __DIR__ . "/../../../general/Database.class.php";
+
+function _interface($input) {
+    $remove = $input['remove'];
+    $db = Database::getInstance();
+
+    if (!isset($remove) ||  empty($remove) || !is_array( $remove ) ) {
+        throw new Exception('Invalid input', 400);
+    }
+
+    $placeholders = implode(', ', array_map(function($index) {
+          return ":id{$index}";
+     }, array_keys($remove)));
+
+     $query = $db->prepare("
+        UPDATE word
+        SET deleted = 1
+        WHERE id IN ({$placeholders})
+     ");
+
+    foreach ($remove as $index => $id) {
+        $query->bindValue(":id{$index}", $id, PDO::PARAM_INT);
+    }
+
+    $query->execute();
+}
 
 $response = [
     'success' => false,

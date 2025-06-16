@@ -92,7 +92,7 @@ class AuthService {
         }
 
         $token = bin2hex(random_bytes(32));
-        $expire = time() + 3600 * 24 * 7;
+        $expire = time() + 1000 * 60 * 60;
         setcookie('user_token', $token, $expire);
 
         // remove before insert

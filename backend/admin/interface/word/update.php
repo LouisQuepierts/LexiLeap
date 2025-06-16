@@ -1,17 +1,11 @@
 <?php
-require_once __DIR__ . "/../../interface.php";
+require_once __DIR__ . "/../../admin_interface.php";
 require_once __DIR__ . "/../../../general/Database.class.php";
 
-$response = [
-    'success' => false,
-    'message' => ''
-];
-
-try { 
+function _interface($input) {
+    $id = $input["id"];
     
-} catch (Exception $e) { 
+    $db = Database::getInstance();
 }
 
-echo json_encode($response);
-exit;
 ?>

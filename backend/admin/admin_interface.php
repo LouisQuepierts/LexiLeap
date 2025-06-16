@@ -1,8 +1,8 @@
 <?php
 require_once __DIR__ . "/../interface.php";
-require_once "/AdminService.class.php";
+require_once "AdminService.class.php";
 
-function _verify() {
+function _verify($input) {
     $auth = AdminService::auth();
 
     if (!$auth['success']) {

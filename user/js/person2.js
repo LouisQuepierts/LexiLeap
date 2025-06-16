@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 模拟用户数据
         const userData = {
             username: window.userdata.username,
-            id: window.userdata.uid,
+            uid: window.userdata.uid,
             email: window.userdata.email,
             avatar: window.userdata.avatar,
             exercisesCount: statistics.exercisesCount,

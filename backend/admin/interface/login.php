@@ -1,6 +1,7 @@
 <?php
 
-require_once __DIR__ . "/../interface.php";
+require_once __DIR__ . "/../../interface.php";
+require_once __DIR__ . "/../AdminService.class.php";
 
 function _interface($input) {
     if (!isset($input['username']) || !isset($input['password'])) {
