@@ -7,10 +7,7 @@ function _interface($input) {
     $offset = isset($input['offset']) ? intval($input['offset']) : 0;
     $limit = isset($input['limit']) ? intval($input['limit']) : 20;
 
-    $wordService = WordService::getInstance();
-    $tagService = TagService::getInstance();
-
-    $result = $wordService->fetch($offset, $limit);
+    $result = WordService::fetch($offset, $limit);
 
     $length = count($result);
     $data = [];
@@ -19,7 +16,7 @@ function _interface($input) {
     for ($i = 0; $i < $length; $i++) { 
         $w = $result[$i];
 
-        $tagResult = $tagService->word2tags($w['id']);
+        $tagResult = TagService::word2tags($w['id']);
         $tags = [];
 
         for ($j = 0; $j < count($tagResult); $j++) { 

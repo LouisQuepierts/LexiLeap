@@ -1,4 +1,4 @@
-import {UrlUtils} from "../../UrlUtils.class";
+import {UrlUtils} from "../../UrlUtils.class.js";
 
 window.admin = [];
 window.admin.login = login;
