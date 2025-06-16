@@ -2,6 +2,8 @@ import { UrlUtils } from "../../UrlUtils.class.js";
 
 window.sign_in = sign_in;
 window.sign_up = sign_up;
+window.to_sign_up = to_sign_up;
+window.sign_out = sign_out;
 
 const REGNX_EMAIL = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
 const REGNX_USERNAME = /^[a-zA-Z0-9_-]{3,16}$/;

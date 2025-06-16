@@ -27,11 +27,17 @@
             </label>
             <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
         </div>
+        <!-- 退出登录按钮 -->
+        <div class="sign_out-container">
+            <button id="sign_out-btn" class="sign_out-btn" onclick="sign_out()"> 退出登录 </button>
+        </div>
         <div class="user-info">
             <h1 class="user-name" id="display-name">用户名</h1>
             <p class="user-id">用户ID: <span id="user-id">user_12345</span></p>
         </div>
     </div>
+
+
 
     <div class="profile-tabs">
         <button class="tab-btn active" data-tab="profile">个人信息</button>
@@ -100,7 +106,8 @@
     </div>
 </main>
 <script src="../../general/js/header.js" type="module"></script>
-<script src="../../user/js/auth.js" type="module"></script>
+<!--<script src="../../user/js/auth.js" type="module"></script>-->
 <script src="../../user/js/person2.js" type="module"></script>
+<script src="../../user/js/user_operation.js" type="module"></script>
 </body>
 </html>

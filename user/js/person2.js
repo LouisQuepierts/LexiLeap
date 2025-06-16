@@ -144,6 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 reader.readAsDataURL(updateFile);
             }
         });
+
         // 添加标签页切换逻辑
         const tabButtons = document.querySelectorAll('.tab-btn');
         tabButtons.forEach(button => {

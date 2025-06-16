@@ -28,6 +28,71 @@ body {
     background-color: white;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    position: relative; /* 确保子元素绝对定位参考此容器 */
+}
+.user-avatar-container {
+    position: relative;
+    margin-right: 30px;
+}
+/* 用户信息区域 - 固定左侧空间 */
+.user-info {
+    flex: 1;                        /* 占据剩余空间，防止被挤压 */
+    min-width: 0;                    /* 允许内容收缩 */
+}
+
+/* 退出登录按钮容器 - 固定在右侧 */
+.sign_out-container {
+    position: absolute;             /* 改为绝对定位 */
+    right: 20px;                    /* 距离右侧20px */
+    display: flex;
+    align-items: center;
+}
+
+/* 退出登录按钮样式 */
+.sign_out-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+/* 按钮图标样式 */
+.sign_out-btn svg {
+    margin-right: 8px;
+    width: 20px;
+    height: 20px;
+}
+
+/* 按钮悬停效果 */
+.sign_out-btn:hover {
+    background-color: #d32f2f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        padding-bottom: 50px; /* 为底部的按钮留出空间 */
+    }
+
+    .logout-container {
+        margin-left: 0;
+        margin-right: 0;
+        position: absolute;
+        bottom: 15px; /* 距离底部15px */
+        left: 50%;
+        transform: translateX(-50%); /* 水平居中 */
+    }
 }
 
 .user-avatar-container {
@@ -279,6 +344,22 @@ body {
     font-size: 0.9rem;
 }
 
+/* 移动端适配：小屏幕时按钮居中 */
+@media (max-width: 768px) {
+    #profile {
+        position: relative;
+    }
+    .logout-container {
+        margin-left: 0;
+        margin-top: 15px;
+        width: 100%;
+    }
+
+    .logout-btn {
+        margin: 0 auto; /* 水平居中 */
+        width: fit-content;
+    }
+}
 /* 页脚样式 */
 .page-footer {
     text-align: center;
