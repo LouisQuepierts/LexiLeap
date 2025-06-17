@@ -84,11 +84,11 @@ class AuthService {
         $userdata = $query->fetch();
 
         if (!$userdata) {
-            throw new Exception('User not found', 404);
+            throw new Exception('User not found or inccorect password', 401);
         }
 
         if (!password_verify($password, $userdata['password'])) {
-            throw new Exception('Incorrect password', 401);
+            throw new Exception('User not found or inccorect password', 401);
         }
 
         $token = bin2hex(random_bytes(32));

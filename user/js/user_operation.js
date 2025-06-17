@@ -2,6 +2,7 @@ import { UrlUtils } from "../../UrlUtils.class.js";
 
 window.sign_in = sign_in;
 window.sign_up = sign_up;
+window.to_sign_up = to_sign_up;
 window.sign_out=sign_out;
 
 const REGNX_EMAIL = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
@@ -21,11 +22,9 @@ function sign_in() {
         email: email,
         password: password
     }).then(response => {
-        console.log(response);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-
         return response.json();
     }).then(data => {
         if (data.success)  {
@@ -34,8 +33,8 @@ function sign_in() {
             alert(data.message);
         }
     }).catch(err => {
-        console.error(err);
-        alert('Error occur');
+        // console.error(err);
+        alert(err.message);
     });
 }
 
@@ -78,11 +77,9 @@ function sign_up() {
     console.log(data);
 
     UrlUtils.post('user', 'sign-up', 'include', data).then(response => {
-        console.log(response);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-
         return response.json();
     }).then(data => {
         if (data.success)  {
@@ -91,18 +88,15 @@ function sign_up() {
             alert(data.message);
         }
     }).catch(err => {
-        console.error(err);
-        alert('Error occur');
+        alert(err.message);
     });
 }
 
 function sign_out() {
-    UrlUtils.get('user', 'sign-out').then(response => {
-        console.log(response);
+    UrlUtils.post('user', 'sign-out', 'include').then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-
         return response.json();
     }).then(data => {
         if (data.success)  {
@@ -111,7 +105,8 @@ function sign_out() {
             alert(data.message);
         }
     }).catch(err => {
-        console.error(err);
-        alert('Error occur');
+        // console.error(err);
+        alert(err.message);
     })
+    sessionStorage.removeItem("userdata");
 }

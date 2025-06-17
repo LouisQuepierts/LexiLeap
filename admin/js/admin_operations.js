@@ -17,7 +17,14 @@ function login() {
         username: username,
         password: password
     }).then(response => {
-        if (response.status === 200) {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    }).then(data => {
+        if (!data.success) {
+            alert(data.message);
+        } else {
             UrlUtils.redirect('admin', 'admin-edit-page.html');
         }
     }).catch(err => {

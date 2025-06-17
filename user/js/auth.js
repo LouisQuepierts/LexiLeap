@@ -11,13 +11,15 @@ async function _auth() {
         }
 
         const response = await UrlUtils.post("user", "verify-login", "include");
-        if (response.status === 401) {
+
+        if (response.status !== 200) {
             UrlUtils.redirect("user", "sign-in.html");
-            // console.log(response);
             return;
         }
 
-        const data = (await response.json()).data;
+        const json = (await response.json());
+        const data = json.data;
+
         data.time = new Date(data.time);
         sessionStorage.setItem("userdata", JSON.stringify(data));
 
