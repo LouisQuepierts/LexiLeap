@@ -14,25 +14,25 @@
 
 h1 {
     font-size: 64px;
-    font-family: Consolas, monospace;
+    font-family: Arial, sans-serif, Consolas, monospace;
     color: #404040
 }
 
 h2 {
     font-size: 32px;
-    font-family: Consolas, monospace;
+    font-family: Arial, sans-serif, Consolas, monospace;
     color: #404040
 }
 
 label {
     font-size: 16px;
-    font-family: Consolas, monospace;
+    font-family: Arial, sans-serif, Consolas, monospace;
     color: #404040;
 }
 
 .form-input {
     font-size: 20px;
-    font-family: Consolas, monospace;
+    font-family: Arial, sans-serif, Consolas, monospace;
     font-weight: bold;
     border: 2px solid #9f9f9f;
     border-radius: 16px;
@@ -50,7 +50,7 @@ label {
 
 .submit {
     font-size: 20px;
-    font-family: Consolas, monospace;
+    font-family: Arial, sans-serif, Consolas, monospace;
     font-weight: bold;
 
     color: #404040;
@@ -70,7 +70,7 @@ label {
 
 .create-account {
     font-size: 20px;
-    font-family: Consolas, monospace;
+    font-family: Arial, sans-serif, Consolas, monospace;
     font-weight: bold;
 
     color: #ffffff;
@@ -83,4 +83,8 @@ label {
     float: right;
 
     transition: 0.2s ease;
+}
+
+.create-account:hover {
+    background-color: #93dc93;
 }
