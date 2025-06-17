@@ -2,7 +2,7 @@
     class Database {
         public static $dsn = "mysql:host=localhost;dbname=lexi_leap";
         public static $user = 'root';
-        public static $pass = '123456';
+        public static $pass = '12345678';
 
         private static $instance;
         private $db;

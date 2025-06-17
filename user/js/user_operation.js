@@ -2,8 +2,8 @@ import { UrlUtils } from "../../UrlUtils.class.js";
 
 window.sign_in = sign_in;
 window.sign_up = sign_up;
-window.to_sign_up = to_sign_up;
 window.sign_out=sign_out;
+window.to_sign_up=to_sign_up;
 
 const REGNX_EMAIL = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
 const REGNX_USERNAME = /^[a-zA-Z0-9_-]{3,16}$/;
@@ -22,9 +22,11 @@ function sign_in() {
         email: email,
         password: password
     }).then(response => {
+        console.log(response);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
+
         return response.json();
     }).then(data => {
         if (data.success)  {
@@ -33,8 +35,8 @@ function sign_in() {
             alert(data.message);
         }
     }).catch(err => {
-        // console.error(err);
-        alert(err.message);
+        console.error(err);
+        alert('Error occur');
     });
 }
 
@@ -77,9 +79,11 @@ function sign_up() {
     console.log(data);
 
     UrlUtils.post('user', 'sign-up', 'include', data).then(response => {
+        console.log(response);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
+
         return response.json();
     }).then(data => {
         if (data.success)  {
@@ -88,15 +92,18 @@ function sign_up() {
             alert(data.message);
         }
     }).catch(err => {
-        alert(err.message);
+        console.error(err);
+        alert('Error occur');
     });
 }
 
 function sign_out() {
-    UrlUtils.post('user', 'sign-out', 'include').then(response => {
+    UrlUtils.get('user', 'sign-out').then(response => {
+        console.log(response);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
+
         return response.json();
     }).then(data => {
         if (data.success)  {
@@ -105,8 +112,7 @@ function sign_out() {
             alert(data.message);
         }
     }).catch(err => {
-        // console.error(err);
-        alert(err.message);
+        console.error(err);
+        alert('Error occur');
     })
-    sessionStorage.removeItem("userdata");
 }
