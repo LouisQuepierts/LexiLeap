@@ -35,8 +35,6 @@ document.addEventListener('DOMContentLoaded', function() {
         })
     }
 
-    // 初始化页面数据
-
     // 设置事件监听器
     setupEventListeners();
 
@@ -125,42 +123,42 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
 
                         UrlUtils.upload('user', 'upload-avatar', updateFile, function (success, res) {
+                            // 上传回调处理
                             if (success && res.success) {
                                 alert("上传成功");
-                                const url = res.data.url;
+                                const url = res.data.url;//更新头像
                                 document.getElementById('user-avatar').src = url;
                                 window.userdata.avatar = url;
-                                sessionStorage.setItem('userdata', JSON.stringify(window.userdata));
-                                const event = new CustomEvent('userdata-loaded', { detail: window.userdata });
+                                sessionStorage.setItem('userdata', JSON.stringify(window.userdata));//将更新后的用户数据存入 sessionStorage，防止页面刷新后数据丢失。从全局变量 window.userdata 中获取当前用户信息（如头像 URL、用户名等）。序列化为 JSON：将对象转换为字符串，确保数据结构完整。存入 sessionStorage：以 userdata 为键，存储序列化后的字符串。
+                                const event = new CustomEvent('userdata-loaded', { detail: window.userdata });//触发事件 userdata-loaded，携带更新后的用户数据，通知导航栏更新头像。
                                 window.dispatchEvent(event);
                             } else {
                                 alert("上传失败");
                             }
                         });
                     }
-                    image.src = e.target.result;
+                    image.src = e.target.result;//设置为读取的结果
                 }
 
-                reader.readAsDataURL(updateFile);
+                reader.readAsDataURL(updateFile);//将文件转换为 DataURL 格式（Base64 编码），用于前端预览。
             }
         });
 
         // 添加标签页切换逻辑
-        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabButtons = document.querySelectorAll('.tab-btn');//为每个标签页按钮添加点击事件监听器。
         tabButtons.forEach(button => {
             button.addEventListener('click', () => {
-                // 移除所有标签页按钮的活动状态
+                // 移除所有标签页按钮的活动状态 确保同一时间只有一个按钮处于激活状态
                 tabButtons.forEach(btn => btn.classList.remove('active'));
-                // 给当前点击的按钮添加活动状态
+                // 激活当前按钮
                 button.classList.add('active');
 
                 // 隐藏所有标签页内容
                 const tabPanes = document.querySelectorAll('.tab-pane');
                 tabPanes.forEach(pane => pane.classList.remove('active'));
 
-                // 显示对应的标签页内容
-                const tabId = button.getAttribute('data-tab');
-                document.getElementById(tabId).classList.add('active');
+                const tabId = button.getAttribute('data-tab');//从按钮的 data-tab 属性获取目标标签页的 ID
+                document.getElementById(tabId).classList.add('active');//通过 ID 找到对应的内容面板，并添加 active 类以显示它。
             });
         });
     }

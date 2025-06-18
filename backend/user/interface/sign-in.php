@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__ . '/../../interface.php';
 require_once __DIR__ . '/../AuthService.class.php';
 

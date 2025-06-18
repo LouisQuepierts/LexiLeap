@@ -57,11 +57,11 @@ body {
     padding: 10px 18px;
     display: flex;
     align-items: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 1rem;
-    font-weight: 500;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;  /* 鼠标悬停时显示手型指针 */
+    transition: all 0.3s ease;/* 所有属性变化时的过渡动画（0.3秒，缓动函数） */
+    font-size: 1rem;/* 字体大小 */
+    font-weight: 500;/* 字体粗细（介于normal和bold之间） */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);/* 轻微阴影（x偏移0，y偏移2px，模糊5px，透明度10%） */
 }
 /* 按钮图标样式 */
 .sign_out-btn svg {
@@ -72,9 +72,9 @@ body {
 
 /* 按钮悬停效果 */
 .sign_out-btn:hover {
-    background-color: #d32f2f;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    background-color: #d32f2f;/* 悬停时背景色变深（从#f44336变为#d32f2f） */
+    transform: translateY(-2px);/* 按钮上移2px（视觉上浮效果） */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);/* 阴影加深（y偏移4px，模糊8px，透明度15%） */
 }
 
 /* 移动端适配 */
@@ -94,19 +94,19 @@ body {
         transform: translateX(-50%); /* 水平居中 */
     }
 }
-
+/*  头像和上传按钮的定位容器  */
 .user-avatar-container {
     position: relative;
     margin-right: 30px;
 }
 
 #user-avatar {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid #f1ede0;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 120px;             /* 宽度120px */
+    height: 120px;            /* 高度120px（确保正方形） */
+    border-radius: 50%;       /* 圆角半径50%，使图像呈圆形 */
+    object-fit: cover;        /* 保持图像比例，覆盖容器（避免拉伸变形） */
+    border: 4px solid #f1ede0; /* 4px宽的浅色边框 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 轻微阴影，增强立体感 */
 }
 
 .avatar-upload-btn {

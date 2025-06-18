@@ -7,7 +7,7 @@ const ENTRIES_COUNT = 4;
 const leftElement = document.getElementById("matching-left");
 const rightElement = document.getElementById("matching-right");
 
-class MatchingData {
+class MatchingData {//数据
     other;
     order;
 
@@ -104,37 +104,37 @@ class Matching extends QuestionController {
         this.tryMatching();
     }
 
-    tryMatching() {
-        const left = this.left.selected;
-        const right = this.right.selected;
+    tryMatching() {//验证是否配对
+        const left = this.left.selected; // 获取左侧选中项的索引
+        const right = this.right.selected; // 获取右侧选中项的索引
 
         if (left === -1 || right === -1) {
-            return;
+            return;// 如果任意一列没有选中项，直接返回
         }
 
-        leftElement.children[left].classList.remove("selected");
+        leftElement.children[left].classList.remove("selected");// 移除左侧选中样式
         rightElement.children[right].classList.remove("selected");
 
-        const matched = left === this.questionData.data.order[right];
-        console.log(matched);
+        const matched = left === this.questionData.data.order[right]; // 判断匹配是否正确
+        console.log(matched);// 打印匹配结果到控制台（用于调试）
 
-        if (matched) {
-            leftElement.children[left].classList.add("correct");
+        if (matched) {//如果匹配
+            leftElement.children[left].classList.add("correct");//标记为正确
             rightElement.children[right].classList.add("correct");
-            this.matchedAmount ++;
+            this.matchedAmount ++;//正确数量增加
         } else {
             leftElement.children[left].classList.add("incorrect");
             rightElement.children[right].classList.add("incorrect");
 
             setTimeout(() => {
-                leftElement.children[left].classList.remove("incorrect");
+                leftElement.children[left].classList.remove("incorrect");//1s后清楚错误标记
                 rightElement.children[right].classList.remove("incorrect");
             }, 1000)
 
             this.missedAmount ++;
         }
 
-        this.left.selected = -1;
+        this.left.selected = -1;// 重置左侧选中状态
         this.right.selected = -1;
     }
 

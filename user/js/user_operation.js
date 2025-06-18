@@ -99,20 +99,22 @@ function sign_up() {
 
 function sign_out() {
     UrlUtils.get('user', 'sign-out').then(response => {
-        console.log(response);
-        if (!response.ok) {
+        console.log(response);//打印响应对象到控制台，便于调试
+        if (!response.ok) {//不正常
             throw new Error('Network response was not ok');
         }
 
-        return response.json();
-    }).then(data => {
+        return response.json();//解析成json格式
+    }).then(data => {//处理json数据
         if (data.success)  {
             UrlUtils.redirect('user', 'sign-in.html');
         } else {
-            alert(data.message);
+            alert(data.message);//显示服务器返回的错误信息
         }
     }).catch(err => {
+        //捕获并处理请求过程中发生的任何错误
         console.error(err);
+        //显示通用错误提示
         alert('Error occur');
     })
 }
