@@ -8,25 +8,25 @@ const leftElement = document.getElementById("matching-left");
 const rightElement = document.getElementById("matching-right");
 
 class MatchingData {//数据
-    other;
-    order;
+    other;//存储干扰项单词
+    order;//存储右侧选项的随机顺序
 
-    constructor(other, order) {
+    constructor(other, order) {//更新
         this.other = other;
         this.order = order;
     }
 }
 
 class AnswerColumn {
-    children;
-    selected;
+    children;//存储列中的子元素（选项按钮）
+    selected;//当前选中的选项索引（-1表示未选中）
 
     constructor(element) {
         this.children = element;
         this.selected = -1;
     }
 
-    reset() {
+    reset() {//重置列状态，移除所有样式类并重置选中状态
         for (let i = 0; i < ENTRIES_COUNT; i++) {
             this.children[i].classList.remove("selected", "correct", "incorrect");
         }
@@ -37,8 +37,8 @@ class AnswerColumn {
 class Matching extends QuestionController {
     left;
     right;
-    matchedAmount = 0;
-    missedAmount = 0;
+    matchedAmount = 0;//跟踪正确和错匹配数量
+    missedAmount = 0;//跟踪错误匹配数量
 
     constructor() {
         super(TYPE_MATCHING);
